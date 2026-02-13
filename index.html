@@ -529,19 +529,21 @@
 
     let lastScrollY = 0;
     let headerHidden = false;
+    const SCROLL_THRESHOLD = 8;
 
     window.addEventListener("scroll", () => {
       const y = window.scrollY;
-      if (y > lastScrollY && !headerHidden) {
+      const delta = y - lastScrollY;
+      if (delta > SCROLL_THRESHOLD && !headerHidden) {
         headerHidden = true;
         title.style.opacity = "0";
         nav.style.opacity = "0";
-      } else if (y < lastScrollY && headerHidden) {
+      } else if (delta < -SCROLL_THRESHOLD && headerHidden) {
         headerHidden = false;
         title.style.opacity = "1";
         nav.style.opacity = "1";
       }
-      lastScrollY = y;
+      if (Math.abs(delta) > SCROLL_THRESHOLD) lastScrollY = y;
     });
 
     // Lightbox elements
@@ -873,6 +875,7 @@
       }
 
       if (!isSwiping && elapsed < 300) {
+        e.preventDefault();
         showMeta = !showMeta;
         renderLightbox();
       }
