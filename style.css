@@ -1,0 +1,333 @@
+:root {
+  --pad: clamp(18px, 4vw, 56px);
+  --max: 1100px;
+  --cols: 3;
+  --gallery-gap: 0px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: #fff;
+  color: #fff;
+}
+
+.header, .footer {
+  padding-left: var(--pad);
+  padding-right: var(--pad);
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding-top: calc(var(--pad) * 0.8);
+  padding-bottom: calc(var(--pad) * 1.2);
+  pointer-events: none;
+}
+
+.header a,
+.header button,
+.header .title {
+  pointer-events: auto;
+}
+
+.title {
+  font-size: clamp(48px, 7vw, 90px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin: 0;
+  cursor: pointer;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(255, 105, 180, 0.9), 0 0 40px rgba(255, 105, 180, 0.6);
+  transition: opacity 300ms ease;
+}
+
+.subtitle {
+  margin: 10px 0 0;
+  font-size: 16px;
+  opacity: 0.8;
+}
+
+.tag-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.header .header-tags {
+  align-self: stretch;
+  justify-content: center;
+}
+
+.tag-button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  text-align: left;
+  cursor: pointer;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 105, 180, 0.9);
+  white-space: nowrap;
+}
+
+.tag-button:hover {
+  text-decoration: underline;
+}
+
+.tag-button.is-active {
+  text-decoration: underline;
+}
+
+.nav {
+  margin-top: 18px;
+  display: flex;
+  gap: 16px;
+  font-size: 14px;
+  transition: opacity 300ms ease;
+}
+
+.nav a {
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,0.4);
+  padding-bottom: 2px;
+  text-shadow: 0 0 10px rgba(255, 105, 180, 0.9);
+}
+
+.nav a:hover {
+  border-bottom-color: rgba(255,255,255,0.9);
+}
+
+.main {
+  margin: 0;
+  padding: 0;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  gap: 0;
+  line-height: 0;
+  background: #fff;
+}
+
+.footer {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding-top: 28px;
+  padding-bottom: 48px;
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.tile {
+  position: relative;
+  cursor: pointer;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  contain: layout style paint;
+}
+
+.tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: opacity 300ms ease, filter 300ms ease;
+}
+
+.tile .meta {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 182, 210, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 0 30px 10px rgba(255, 182, 210, 0.7);
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  transition: opacity 300ms ease;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 105, 180, 0.9);
+}
+
+/* in-grid meta toggle (SHIFT+click) */
+.tile.is-white img {
+  opacity: 0.5;
+  filter: blur(4px);
+}
+.tile.is-white .meta {
+  opacity: 1;
+}
+
+/* prevent background scroll when viewer is open */
+body.no-scroll {
+  overflow: hidden;
+}
+
+/* --- Lightbox / supersized viewer --- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  z-index: 999;
+  display: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.lightbox.is-open {
+  display: flex;
+  flex-direction: column;
+}
+
+.lightbox-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  flex-shrink: 0;
+  margin: auto 0;
+}
+
+/* Toggle to fit full image in viewport */
+.lightbox.fit-contain .lightbox-img {
+  width: 100%;
+  height: 100vh;
+  object-fit: contain;
+  flex-shrink: 1;
+}
+
+/* Meta overlay in viewer (SPACE toggles) */
+.lightbox-meta {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 182, 210, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 0 30px 10px rgba(255, 182, 210, 0.7);
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  transition: opacity 250ms ease;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 105, 180, 0.9);
+  pointer-events: none;
+}
+
+.lightbox.show-meta .lightbox-meta {
+  opacity: 1;
+}
+
+/* Close button */
+.lightbox-close {
+  position: fixed;
+  top: calc(var(--pad) * 0.8);
+  left: var(--pad);
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  padding: 8px 10px;
+  color: #fff;
+  opacity: 0.9;
+  letter-spacing: 0.01em;
+  text-shadow:
+    0 0 8px rgba(255, 105, 180, 1),
+    0 0 20px rgba(255, 105, 180, 0.8),
+    0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.lightbox-close:hover {
+  opacity: 1;
+}
+
+.lightbox.is-open {
+  cursor: default;
+}
+
+.lightbox-arrow {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1001;
+  font-size: 24px;
+  color: #fff;
+  text-shadow:
+    0 0 8px rgba(255, 105, 180, 1),
+    0 0 20px rgba(255, 105, 180, 0.8),
+    0 1px 3px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 150ms ease;
+  user-select: none;
+  font-family: inherit;
+  font-weight: 500;
+}
+
+.lightbox.is-open .lightbox-arrow {
+  opacity: 0.9;
+}
+
+/* Small hint (optional, but nice) */
+.lightbox-hint {
+  position: fixed;
+  left: 18px;
+  bottom: 18px;
+  font-size: 12px;
+  opacity: 0.9;
+  letter-spacing: 0.01em;
+  user-select: none;
+  color: #fff;
+  text-shadow:
+    0 0 8px rgba(255, 105, 180, 1),
+    0 0 20px rgba(255, 105, 180, 0.8),
+    0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.gallery-hint {
+  position: fixed;
+  left: 18px;
+  bottom: 18px;
+  z-index: 5;
+  font-family: inherit;
+  font-size: 12px;
+  opacity: 0.9;
+  letter-spacing: 0.01em;
+  user-select: none;
+  color: #fff;
+  text-shadow:
+    0 0 8px rgba(255, 105, 180, 1),
+    0 0 20px rgba(255, 105, 180, 0.8),
+    0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+@media (pointer: coarse) {
+  .lightbox-hint,
+  .gallery-hint {
+    display: none;
+  }
+}
