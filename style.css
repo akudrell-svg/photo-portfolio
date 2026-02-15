@@ -44,7 +44,6 @@ body {
   cursor: pointer;
   color: #fff;
   text-shadow: 0 0 20px rgba(255, 105, 180, 0.9), 0 0 40px rgba(255, 105, 180, 0.6);
-  transition: opacity 300ms ease;
 }
 
 .subtitle {
@@ -92,7 +91,6 @@ body {
   display: flex;
   gap: 16px;
   font-size: 14px;
-  transition: opacity 300ms ease;
 }
 
 .nav a {
@@ -134,9 +132,6 @@ body {
   cursor: pointer;
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  contain: layout style paint;
-  content-visibility: auto;
-  contain-intrinsic-size: 1px 300px;
 }
 
 .tile img {
@@ -145,12 +140,6 @@ body {
   object-fit: cover;
   object-position: center;
   display: block;
-  opacity: 0;
-  transition: opacity 300ms ease;
-}
-
-.tile img.is-loaded {
-  opacity: 1;
 }
 
 .tile .meta {
@@ -167,22 +156,16 @@ body {
   font-size: 14px;
   line-height: 1.5;
   letter-spacing: 0.01em;
-  transition: opacity 300ms ease, visibility 0s 300ms;
   color: #fff;
   text-shadow: 0 0 10px rgba(255, 105, 180, 0.9);
 }
 
 .tile.is-white img {
   opacity: 0.5;
-  filter: blur(4px);
 }
 .tile.is-white .meta {
   opacity: 1;
   visibility: visible;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 0 30px 10px rgba(255, 182, 210, 0.7);
-  transition: opacity 300ms ease, visibility 0s;
 }
 
 /* prevent background scroll when viewer is open */
@@ -228,9 +211,6 @@ body.no-scroll {
   position: fixed;
   inset: 0;
   background: rgba(255, 182, 210, 0.55);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 0 30px 10px rgba(255, 182, 210, 0.7);
   opacity: 0;
   display: flex;
   align-items: center;
@@ -240,7 +220,6 @@ body.no-scroll {
   font-size: 14px;
   line-height: 1.5;
   letter-spacing: 0.01em;
-  transition: opacity 250ms ease;
   color: #fff;
   text-shadow: 0 0 10px rgba(255, 105, 180, 0.9);
   pointer-events: none;
@@ -266,10 +245,7 @@ body.no-scroll {
   color: #fff;
   opacity: 0.9;
   letter-spacing: 0.01em;
-  text-shadow:
-    0 0 8px rgba(255, 105, 180, 1),
-    0 0 20px rgba(255, 105, 180, 0.8),
-    0 1px 3px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 0 8px rgba(255, 105, 180, 1), 0 0 20px rgba(255, 105, 180, 0.8), 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .lightbox-close:hover {
@@ -286,12 +262,8 @@ body.no-scroll {
   z-index: 1001;
   font-size: 24px;
   color: #fff;
-  text-shadow:
-    0 0 8px rgba(255, 105, 180, 1),
-    0 0 20px rgba(255, 105, 180, 0.8),
-    0 1px 3px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 0 8px rgba(255, 105, 180, 1), 0 0 20px rgba(255, 105, 180, 0.8), 0 1px 3px rgba(0, 0, 0, 0.4);
   opacity: 0;
-  transition: opacity 150ms ease;
   user-select: none;
   font-family: inherit;
   font-weight: 500;
@@ -311,10 +283,7 @@ body.no-scroll {
   letter-spacing: 0.01em;
   user-select: none;
   color: #fff;
-  text-shadow:
-    0 0 8px rgba(255, 105, 180, 1),
-    0 0 20px rgba(255, 105, 180, 0.8),
-    0 1px 3px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 0 8px rgba(255, 105, 180, 1), 0 0 20px rgba(255, 105, 180, 0.8), 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .gallery-hint {
@@ -328,10 +297,7 @@ body.no-scroll {
   letter-spacing: 0.01em;
   user-select: none;
   color: #fff;
-  text-shadow:
-    0 0 8px rgba(255, 105, 180, 1),
-    0 0 20px rgba(255, 105, 180, 0.8),
-    0 1px 3px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 0 8px rgba(255, 105, 180, 1), 0 0 20px rgba(255, 105, 180, 0.8), 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 @media (pointer: coarse) {
