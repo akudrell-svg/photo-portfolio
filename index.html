@@ -584,7 +584,6 @@
 
     document.documentElement.style.setProperty("--cols", cols);
     gallery.style.transformOrigin = "top left";
-    gallery.style.willChange = "transform";
 
     function tickZoom() {
       scale += (targetScale - scale) * LERP;

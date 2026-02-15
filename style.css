@@ -135,6 +135,8 @@ body {
   aspect-ratio: 1 / 1;
   overflow: hidden;
   contain: layout style paint;
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 300px;
 }
 
 .tile img {
@@ -144,7 +146,7 @@ body {
   object-position: center;
   display: block;
   opacity: 0;
-  transition: opacity 300ms ease, filter 300ms ease;
+  transition: opacity 300ms ease;
 }
 
 .tile img.is-loaded {
@@ -155,10 +157,8 @@ body {
   position: absolute;
   inset: 0;
   background: rgba(255, 182, 210, 0.55);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 0 30px 10px rgba(255, 182, 210, 0.7);
   opacity: 0;
+  visibility: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -167,18 +167,22 @@ body {
   font-size: 14px;
   line-height: 1.5;
   letter-spacing: 0.01em;
-  transition: opacity 300ms ease;
+  transition: opacity 300ms ease, visibility 0s 300ms;
   color: #fff;
   text-shadow: 0 0 10px rgba(255, 105, 180, 0.9);
 }
 
-/* in-grid meta toggle (SHIFT+click) */
 .tile.is-white img {
   opacity: 0.5;
   filter: blur(4px);
 }
 .tile.is-white .meta {
   opacity: 1;
+  visibility: visible;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 0 30px 10px rgba(255, 182, 210, 0.7);
+  transition: opacity 300ms ease, visibility 0s;
 }
 
 /* prevent background scroll when viewer is open */
