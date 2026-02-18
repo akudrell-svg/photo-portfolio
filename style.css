@@ -78,8 +78,13 @@ body {
   white-space: nowrap;
 }
 
-.tag-button:hover {
-  border-bottom: 1px solid rgba(255,255,255,0.9);
+@media (hover: hover) {
+  .tag-button:hover {
+    border-bottom: 1px solid rgba(255,255,255,0.9);
+  }
+  .nav a:hover {
+    border-bottom-color: rgba(255,255,255,0.9);
+  }
 }
 
 .tag-button.is-active {
@@ -99,10 +104,6 @@ body {
   border-bottom: 1px solid transparent;
   padding-bottom: 2px;
   text-shadow: 0 0 10px rgba(255, 105, 180, 0.9);
-}
-
-.nav a:hover {
-  border-bottom-color: rgba(255,255,255,0.9);
 }
 
 .main {
@@ -298,6 +299,27 @@ body.no-scroll {
   user-select: none;
   color: #fff;
   text-shadow: 0 0 8px rgba(255, 105, 180, 1), 0 0 20px rgba(255, 105, 180, 0.8), 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+  }
+
+  .header > div {
+    gap: 16px !important;
+  }
+
+  .title {
+    font-size: clamp(32px, 10vw, 48px);
+  }
+
+  .tag-filters {
+    flex-direction: row;
+    gap: 12px;
+  }
 }
 
 /* Persistent title bar in lightbox (mobile only) */
