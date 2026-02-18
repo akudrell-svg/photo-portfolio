@@ -644,6 +644,8 @@
 
     <div class="lightbox-arrow" id="lightboxArrow"></div>
 
+    <div class="lightbox-title" id="lightboxTitle"></div>
+
     <div class="lightbox-hint" id="lightboxHint">
       ← prev · next → · space = info · f = fit · esc = close
     </div>
@@ -825,6 +827,7 @@
       }
 
       lightboxMeta.textContent = data.meta;
+      document.getElementById("lightboxTitle").textContent = data.meta;
 
       // meta visibility
       lightbox.classList.toggle("show-meta", showMeta);
@@ -935,7 +938,6 @@
     let touchStartX = 0;
     let touchStartY = 0;
     let touchStartTime = 0;
-    let isSwiping = false;
 
     lightbox.addEventListener("touchstart", (e) => {
       if (!isOpen) return;
@@ -944,15 +946,6 @@
       touchStartX = touch.clientX;
       touchStartY = touch.clientY;
       touchStartTime = Date.now();
-      isSwiping = false;
-    }, { passive: true });
-
-    lightbox.addEventListener("touchmove", (e) => {
-      if (!isOpen) return;
-      const touch = e.touches[0];
-      const dx = Math.abs(touch.clientX - touchStartX);
-      const dy = Math.abs(touch.clientY - touchStartY);
-      if (dx > 10 || dy > 10) isSwiping = true;
     }, { passive: true });
 
     lightbox.addEventListener("touchend", (e) => {
@@ -961,11 +954,11 @@
       const touch = e.changedTouches[0];
       const dx = touch.clientX - touchStartX;
       const dy = touch.clientY - touchStartY;
-      const elapsed = Date.now() - touchStartTime;
       const absDx = Math.abs(dx);
       const absDy = Math.abs(dy);
 
-      if (absDx > 50 && absDx > absDy * 1.5) {
+      // Swipe left/right → navigate
+      if (absDx > 30 && absDx > absDy * 1.2) {
         e.preventDefault();
         if (dx < 0) nextImage();
         else prevImage();
@@ -973,10 +966,24 @@
         return;
       }
 
-      if (!isSwiping && elapsed < 300) {
+      // Swipe up → show meta
+      if (dy < -40 && absDy > absDx * 1.2) {
         e.preventDefault();
-        showMeta = !showMeta;
+        showMeta = true;
         renderLightbox();
+        return;
+      }
+
+      // Swipe down → hide meta or close lightbox
+      if (dy > 40 && absDy > absDx * 1.2) {
+        e.preventDefault();
+        if (showMeta) {
+          showMeta = false;
+          renderLightbox();
+        } else {
+          closeLightbox();
+        }
+        return;
       }
     });
 

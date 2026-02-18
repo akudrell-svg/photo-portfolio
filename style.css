@@ -300,9 +300,34 @@ body.no-scroll {
   text-shadow: 0 0 8px rgba(255, 105, 180, 1), 0 0 20px rgba(255, 105, 180, 0.8), 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
+/* Persistent title bar in lightbox (mobile only) */
+.lightbox-title {
+  display: none;
+}
+
 @media (pointer: coarse) {
   .lightbox-hint,
   .gallery-hint {
+    display: none;
+  }
+
+  .lightbox-title {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 14px 18px;
+    font-size: 12px;
+    letter-spacing: 0.01em;
+    color: #fff;
+    text-shadow: 0 0 8px rgba(255, 105, 180, 1), 0 0 20px rgba(255, 105, 180, 0.8), 0 1px 3px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(to top, rgba(0,0,0,0.15) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  .lightbox.show-meta .lightbox-title {
     display: none;
   }
 }
