@@ -818,18 +818,23 @@
       const imageChanged = lightboxImg.getAttribute("src") !== data.src;
 
       if (imageChanged) {
+        const titleEl = document.getElementById("lightboxTitle");
+        titleEl.style.opacity = "0";
         lightboxImg.src = data.src;
 
-        const centerScroll = () => {
+        const onLoad = () => {
           const scrollMax = lightbox.scrollHeight - lightbox.clientHeight;
           lightbox.scrollTop = scrollMax / 2;
+          lightboxMeta.textContent = data.meta;
+          titleEl.textContent = data.meta;
+          titleEl.style.opacity = "";
         };
-        lightboxImg.onload = centerScroll;
-        if (lightboxImg.complete) centerScroll();
+        lightboxImg.onload = onLoad;
+        if (lightboxImg.complete) onLoad();
+      } else {
+        lightboxMeta.textContent = data.meta;
+        document.getElementById("lightboxTitle").textContent = data.meta;
       }
-
-      lightboxMeta.textContent = data.meta;
-      document.getElementById("lightboxTitle").textContent = data.meta;
 
       // meta visibility
       lightbox.classList.toggle("show-meta", showMeta);
