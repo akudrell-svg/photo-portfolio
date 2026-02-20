@@ -694,10 +694,7 @@
         .sort((a, b) => a.sort - b.sort)
         .map(({ item }) => item);
 
-      shuffled.forEach((tile, i) => {
-        tile.dataset.frame = (i + 1) + "A";
-        gallery.appendChild(tile);
-      });
+      shuffled.forEach(tile => gallery.appendChild(tile));
 
       const images = shuffled.map(t => t.querySelector("img")).filter(Boolean);
       images.forEach((img, i) => {
@@ -752,29 +749,10 @@
     const sprocketTop = document.querySelector(".sprocket-top");
     const sprocketBottom = document.querySelector(".sprocket-bottom");
 
-    // Frame number container inside the bottom strip
-    const frameNumWrap = document.createElement("div");
-    frameNumWrap.style.cssText = "position:absolute;top:0;left:0;height:100%;width:0;";
-    sprocketBottom.appendChild(frameNumWrap);
-
-    function buildFrameNumbers() {
-      frameNumWrap.innerHTML = "";
-      const visible = tiles.filter(t => t.style.display !== "none");
-      visible.forEach((tile, i) => {
-        const span = document.createElement("span");
-        span.className = "frame-num";
-        span.textContent = "\u25B6 " + (i + 1) + "A";
-        span.style.left = tile.offsetLeft + 6 + "px";
-        frameNumWrap.appendChild(span);
-      });
-    }
-    requestAnimationFrame(buildFrameNumbers);
-
     gallery.addEventListener("scroll", () => {
       const x = -gallery.scrollLeft + "px";
       sprocketTop.style.backgroundPositionX = x;
       sprocketBottom.style.backgroundPositionX = x;
-      frameNumWrap.style.transform = "translateX(" + x + ")";
     });
 
     // Filtering helpers
@@ -784,7 +762,6 @@
         const matches = tags.includes(tag);
         tile.style.display = matches ? "" : "none";
       });
-      requestAnimationFrame(buildFrameNumbers);
     }
 
     function getTagCount(tag) {
