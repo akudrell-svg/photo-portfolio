@@ -628,7 +628,7 @@
     </section>
   </main>
 
-  <div class="gallery-hint">click = preview · shift+click = info · ⇧+/− or ⌘+/− = zoom</div>
+  <div class="gallery-hint">scroll = browse · click = preview · ⇧+/− or ⌘+/− = zoom</div>
 
   <footer class="footer">
     <p>© <span id="year"></span> Mariann Drell</p>
@@ -695,6 +695,7 @@
 
       const images = shuffled.map(t => t.querySelector("img")).filter(Boolean);
       images.forEach((img, i) => {
+        if (img.dataset.full) img.src = img.dataset.full;
         if (i < EAGER_COUNT) img.loading = "eager";
         if (img.complete) img.classList.add("is-loaded");
         else img.addEventListener("load", () => img.classList.add("is-loaded"), { once: true });
@@ -703,22 +704,23 @@
 
     shuffleAndLayout();
 
-    const MIN_COLS = 2;
-    const MAX_COLS = 8;
-    let cols = 3;
+    const TILE_STEPS = [8, 12, 18, 25, 35, 50, 65, 80, 100];
+    let tileStep = 8; // index into TILE_STEPS → 100vh default
 
-    document.documentElement.style.setProperty("--cols", cols);
+    function applyTileSize() {
+      document.documentElement.style.setProperty("--tile-h", TILE_STEPS[tileStep] + "vh");
+    }
 
     function zoomIn() {
-      if (cols > MIN_COLS) {
-        cols--;
-        document.documentElement.style.setProperty("--cols", cols);
+      if (tileStep < TILE_STEPS.length - 1) {
+        tileStep++;
+        applyTileSize();
       }
     }
     function zoomOut() {
-      if (cols < MAX_COLS) {
-        cols++;
-        document.documentElement.style.setProperty("--cols", cols);
+      if (tileStep > 0) {
+        tileStep--;
+        applyTileSize();
       }
     }
 
@@ -731,6 +733,13 @@
         if (isZoomIn) zoomIn(); else zoomOut();
       }
     });
+
+    // Convert vertical scroll to horizontal scroll on gallery
+    gallery.addEventListener("wheel", (e) => {
+      if (isOpen) return;
+      e.preventDefault();
+      gallery.scrollLeft += e.deltaY + e.deltaX;
+    }, { passive: false });
 
     // Filtering helpers
     function applyFilter(tag) {
@@ -879,23 +888,45 @@
       renderLightbox();
     }
 
-    // Click any tile to open viewer
-    // SHIFT+click toggles the in-grid meta overlay
     function clearOverlays() {
       tiles.forEach(t => t.classList.remove("is-white"));
     }
 
+    // Desktop: click to open
     tiles.forEach(tile => {
-      tile.addEventListener("click", (e) => {
-        if (e.shiftKey) {
-          const wasActive = tile.classList.contains("is-white");
-          clearOverlays();
-          if (!wasActive) tile.classList.add("is-white");
-          return;
-        }
-        clearOverlays();
+      tile.addEventListener("click", () => {
         openLightboxFrom(tile);
       });
+    });
+
+    // Mobile: tap to open (more reliable in scrollable containers)
+    let galleryTouchStart = null;
+    gallery.addEventListener("touchstart", (e) => {
+      if (isOpen) return;
+      galleryTouchStart = {
+        x: e.touches[0].clientX,
+        y: e.touches[0].clientY,
+        time: Date.now(),
+        target: e.target
+      };
+    }, { passive: true });
+
+    gallery.addEventListener("touchend", (e) => {
+      if (isOpen || !galleryTouchStart) return;
+      const touch = e.changedTouches[0];
+      const dx = Math.abs(touch.clientX - galleryTouchStart.x);
+      const dy = Math.abs(touch.clientY - galleryTouchStart.y);
+      const dt = Date.now() - galleryTouchStart.time;
+
+      // Short tap with minimal movement = open lightbox
+      if (dx < 10 && dy < 10 && dt < 300) {
+        const tile = galleryTouchStart.target.closest(".tile");
+        if (tile) {
+          e.preventDefault();
+          openLightboxFrom(tile);
+        }
+      }
+      galleryTouchStart = null;
     });
 
     const lightboxArrow = document.getElementById("lightboxArrow");
