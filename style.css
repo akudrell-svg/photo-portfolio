@@ -119,20 +119,29 @@ body {
   position: fixed;
   left: 0;
   width: 100%;
-  height: calc(var(--tile-h) * 0.125);
   z-index: 4;
   background-size: auto 100%;
   pointer-events: none;
   overflow: hidden;
 }
+.sprocket-strip::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60'><circle cx='3' cy='8' r='0.4' fill='%23ff69b4' opacity='0.2'/><circle cx='28' cy='42' r='0.3' fill='%23ff69b4' opacity='0.15'/><circle cx='51' cy='15' r='0.35' fill='%23ff69b4' opacity='0.18'/><circle cx='14' cy='53' r='0.3' fill='%23ff69b4' opacity='0.2'/><circle cx='42' cy='5' r='0.4' fill='%23ff69b4' opacity='0.15'/><circle cx='8' cy='30' r='0.3' fill='%23ff69b4' opacity='0.18'/><circle cx='55' cy='38' r='0.35' fill='%23ff69b4' opacity='0.2'/><circle cx='22' cy='22' r='0.3' fill='%23ff69b4' opacity='0.15'/><circle cx='37' cy='55' r='0.4' fill='%23ff69b4' opacity='0.18'/><circle cx='48' cy='28' r='0.3' fill='%23ff69b4' opacity='0.2'/><line x1='10' y1='18' x2='14' y2='20' stroke='%23ff69b4' stroke-width='0.3' opacity='0.15'/><line x1='35' y1='10' x2='38' y2='8' stroke='%23ff69b4' stroke-width='0.25' opacity='0.18'/><line x1='45' y1='48' x2='50' y2='47' stroke='%23ff69b4' stroke-width='0.3' opacity='0.15'/><line x1='5' y1='45' x2='9' y2='44' stroke='%23ff69b4' stroke-width='0.25' opacity='0.18'/><line x1='25' y1='33' x2='28' y2='35' stroke='%23ff69b4' stroke-width='0.3' opacity='0.15'/></svg>");
+  background-size: 60px 60px;
+  pointer-events: none;
+}
 .sprocket-top {
+  height: calc(var(--tile-h) * 0.085);
   top: calc(50vh - var(--tile-h) / 2);
-  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='100'><rect width='80' height='100' fill='%23382818'/><rect x='5' y='14' width='8' height='13' rx='1.5' fill='%23000' opacity='0.15'/><rect x='21' y='14' width='8' height='13' rx='1.5' fill='%23000' opacity='0.15'/><rect x='37' y='14' width='8' height='13' rx='1.5' fill='%23000' opacity='0.15'/><rect x='53' y='14' width='8' height='13' rx='1.5' fill='%23000' opacity='0.15'/><rect x='69' y='14' width='8' height='13' rx='1.5' fill='%23000' opacity='0.15'/><rect x='5.5' y='14.5' width='7' height='12' rx='1' fill='%23fff9ee'/><rect x='21.5' y='14.5' width='7' height='12' rx='1' fill='%23fff9ee'/><rect x='37.5' y='14.5' width='7' height='12' rx='1' fill='%23fff9ee'/><rect x='53.5' y='14.5' width='7' height='12' rx='1' fill='%23fff9ee'/><rect x='69.5' y='14.5' width='7' height='12' rx='1' fill='%23fff9ee'/></svg>") repeat-x;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='100'><rect width='16' height='100' fill='%23fff'/><rect x='3' y='14.5' width='7' height='12' rx='1' fill='%23ff69b4' opacity='0.15'/><rect x='3' y='14.5' width='7' height='12' rx='1' stroke='%23ff69b4' stroke-width='0.5' stroke-opacity='0.25' fill='none'/></svg>") repeat-x;
   background-size: auto 100%;
 }
 .sprocket-bottom {
+  height: calc(var(--tile-h) * 0.085);
   bottom: calc(50vh - var(--tile-h) / 2);
-  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='100'><rect width='80' height='100' fill='%23382818'/><rect x='5' y='73' width='8' height='13' rx='1.5' fill='%23000' opacity='0.15'/><rect x='21' y='73' width='8' height='13' rx='1.5' fill='%23000' opacity='0.15'/><rect x='37' y='73' width='8' height='13' rx='1.5' fill='%23000' opacity='0.15'/><rect x='53' y='73' width='8' height='13' rx='1.5' fill='%23000' opacity='0.15'/><rect x='69' y='73' width='8' height='13' rx='1.5' fill='%23000' opacity='0.15'/><rect x='5.5' y='73.5' width='7' height='12' rx='1' fill='%23fff9ee'/><rect x='21.5' y='73.5' width='7' height='12' rx='1' fill='%23fff9ee'/><rect x='37.5' y='73.5' width='7' height='12' rx='1' fill='%23fff9ee'/><rect x='53.5' y='73.5' width='7' height='12' rx='1' fill='%23fff9ee'/><rect x='69.5' y='73.5' width='7' height='12' rx='1' fill='%23fff9ee'/></svg>") repeat-x;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='100'><rect width='16' height='100' fill='%23fff'/><rect x='3' y='73.5' width='7' height='12' rx='1' fill='%23ff69b4' opacity='0.15'/><rect x='3' y='73.5' width='7' height='12' rx='1' stroke='%23ff69b4' stroke-width='0.5' stroke-opacity='0.25' fill='none'/></svg>") repeat-x;
   background-size: auto 100%;
 }
 
@@ -146,7 +155,7 @@ body {
   overflow-y: hidden;
   overscroll-behavior-x: contain;
   -webkit-overflow-scrolling: touch;
-  background: #382818;
+  background: #fff;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -161,7 +170,7 @@ body {
 .tile {
   position: relative;
   cursor: pointer;
-  height: calc(var(--tile-h) * 0.75);
+  height: calc(var(--tile-h) * 0.83);
   flex-shrink: 0;
   overflow: hidden;
   line-height: 0;
@@ -276,8 +285,8 @@ body.no-scroll {
   background: none;
   border: none;
   font-family: inherit;
-  font-size: 28px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 400;
   line-height: 1;
   cursor: pointer;
   padding: 8px 10px;
@@ -316,7 +325,7 @@ body.no-scroll {
 .lightbox-hint {
   position: fixed;
   left: var(--pad);
-  bottom: calc(50vh - var(--tile-h) / 2 + var(--tile-h) * 0.125 + 8px);
+  bottom: calc(50vh - var(--tile-h) / 2 + var(--tile-h) * 0.085 + 10px);
   font-size: 12px;
   opacity: 0.9;
   letter-spacing: 0.01em;
@@ -328,15 +337,15 @@ body.no-scroll {
 .gallery-hint {
   position: fixed;
   left: var(--pad);
-  bottom: calc(50vh - var(--tile-h) / 2 + var(--tile-h) * 0.045);
+  bottom: calc(50vh - var(--tile-h) / 2 + var(--tile-h) * 0.085 + 10px);
   z-index: 5;
-  font-family: monospace;
+  font-family: inherit;
   font-size: 12px;
-  opacity: 0.7;
-  letter-spacing: 0.08em;
+  opacity: 0.9;
+  letter-spacing: 0.01em;
   user-select: none;
-  color: #907858;
-  text-shadow: none;
+  color: #fff;
+  text-shadow: 0 0 8px rgba(255, 105, 180, 1), 0 0 20px rgba(255, 105, 180, 0.8), 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 @media (max-width: 600px) {
@@ -373,7 +382,7 @@ body.no-scroll {
 
   .lightbox-close {
     padding: 14px 18px;
-    font-size: 32px;
+    font-size: 16px;
   }
 
   .lightbox-title {
@@ -425,8 +434,8 @@ body.no-scroll {
   background: none;
   border: none;
   font-family: inherit;
-  font-size: 28px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 400;
   line-height: 1;
   cursor: pointer;
   padding: 8px 10px;
