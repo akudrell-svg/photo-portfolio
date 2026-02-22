@@ -749,10 +749,19 @@
     const sprocketTop = document.querySelector(".sprocket-top");
     const sprocketBottom = document.querySelector(".sprocket-bottom");
 
+    let lastScrollLeft = 0;
+
     gallery.addEventListener("scroll", () => {
-      const x = -gallery.scrollLeft + "px";
+      const sl = gallery.scrollLeft;
+      const x = -sl + "px";
       sprocketTop.style.backgroundPositionX = x;
       sprocketBottom.style.backgroundPositionX = x;
+
+      // Flip arrows based on scroll direction
+      const goingLeft = sl < lastScrollLeft;
+      sprocketTop.classList.toggle("scroll-left", goingLeft);
+      sprocketBottom.classList.toggle("scroll-left", goingLeft);
+      lastScrollLeft = sl;
     });
 
     // Filtering helpers
@@ -956,11 +965,11 @@
       lightboxArrow.style.left = (e.clientX + 16) + "px";
 
       if (inArrowZone && onLeft) {
-        lightboxArrow.textContent = "\u2190";
+        lightboxArrow.textContent = "\u2039";
         lightboxArrow.style.opacity = "0.9";
         lightbox.style.cursor = "none";
       } else if (inArrowZone && onRight) {
-        lightboxArrow.textContent = "\u2192";
+        lightboxArrow.textContent = "\u203A";
         lightboxArrow.style.opacity = "0.9";
         lightbox.style.cursor = "none";
       } else {

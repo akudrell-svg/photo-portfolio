@@ -27,7 +27,7 @@ body {
   left: 0;
   right: 0;
   z-index: 10;
-  padding-top: calc(var(--pad) * 0.8);
+  padding-top: calc(50vh - var(--tile-h) / 2 + var(--tile-h) * 0.07);
   padding-bottom: calc(var(--pad) * 1.2);
   pointer-events: none;
 }
@@ -135,14 +135,20 @@ body {
 .sprocket-top {
   height: calc(var(--tile-h) * 0.085);
   top: calc(50vh - var(--tile-h) / 2);
-  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='100'><rect width='16' height='100' fill='%23fff'/><rect x='3' y='14.5' width='7' height='12' rx='1' fill='%23ff69b4' opacity='0.15'/><rect x='3' y='14.5' width='7' height='12' rx='1' stroke='%23ff69b4' stroke-width='0.5' stroke-opacity='0.25' fill='none'/></svg>") repeat-x;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='100'><rect width='28' height='100' fill='%23fff'/><text x='14' y='20.5' font-family='system-ui,sans-serif' font-size='28' fill='%23ff69b4' fill-opacity='0.45' text-anchor='middle' dominant-baseline='central'>›</text></svg>") repeat-x;
   background-size: auto 100%;
+}
+.sprocket-top.scroll-left {
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='100'><rect width='28' height='100' fill='%23fff'/><text x='14' y='20.5' font-family='system-ui,sans-serif' font-size='28' fill='%23ff69b4' fill-opacity='0.45' text-anchor='middle' dominant-baseline='central'>‹</text></svg>");
 }
 .sprocket-bottom {
   height: calc(var(--tile-h) * 0.085);
   bottom: calc(50vh - var(--tile-h) / 2);
-  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='100'><rect width='16' height='100' fill='%23fff'/><rect x='3' y='73.5' width='7' height='12' rx='1' fill='%23ff69b4' opacity='0.15'/><rect x='3' y='73.5' width='7' height='12' rx='1' stroke='%23ff69b4' stroke-width='0.5' stroke-opacity='0.25' fill='none'/></svg>") repeat-x;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='100'><rect width='28' height='100' fill='%23fff'/><text x='14' y='79.5' font-family='system-ui,sans-serif' font-size='28' fill='%23ff69b4' fill-opacity='0.45' text-anchor='middle' dominant-baseline='central'>›</text></svg>") repeat-x;
   background-size: auto 100%;
+}
+.sprocket-bottom.scroll-left {
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='100'><rect width='28' height='100' fill='%23fff'/><text x='14' y='79.5' font-family='system-ui,sans-serif' font-size='28' fill='%23ff69b4' fill-opacity='0.45' text-anchor='middle' dominant-baseline='central'>‹</text></svg>");
 }
 
 .gallery {
