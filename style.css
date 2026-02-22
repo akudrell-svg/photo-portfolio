@@ -120,35 +120,36 @@ body {
   left: 0;
   width: 100%;
   z-index: 4;
-  background-size: auto 100%;
+  background: #fff;
   pointer-events: none;
   overflow: hidden;
-}
-.sprocket-strip::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60'><circle cx='3' cy='8' r='0.4' fill='%23ff69b4' opacity='0.2'/><circle cx='28' cy='42' r='0.3' fill='%23ff69b4' opacity='0.15'/><circle cx='51' cy='15' r='0.35' fill='%23ff69b4' opacity='0.18'/><circle cx='14' cy='53' r='0.3' fill='%23ff69b4' opacity='0.2'/><circle cx='42' cy='5' r='0.4' fill='%23ff69b4' opacity='0.15'/><circle cx='8' cy='30' r='0.3' fill='%23ff69b4' opacity='0.18'/><circle cx='55' cy='38' r='0.35' fill='%23ff69b4' opacity='0.2'/><circle cx='22' cy='22' r='0.3' fill='%23ff69b4' opacity='0.15'/><circle cx='37' cy='55' r='0.4' fill='%23ff69b4' opacity='0.18'/><circle cx='48' cy='28' r='0.3' fill='%23ff69b4' opacity='0.2'/><line x1='10' y1='18' x2='14' y2='20' stroke='%23ff69b4' stroke-width='0.3' opacity='0.15'/><line x1='35' y1='10' x2='38' y2='8' stroke='%23ff69b4' stroke-width='0.25' opacity='0.18'/><line x1='45' y1='48' x2='50' y2='47' stroke='%23ff69b4' stroke-width='0.3' opacity='0.15'/><line x1='5' y1='45' x2='9' y2='44' stroke='%23ff69b4' stroke-width='0.25' opacity='0.18'/><line x1='25' y1='33' x2='28' y2='35' stroke='%23ff69b4' stroke-width='0.3' opacity='0.15'/></svg>");
-  background-size: 60px 60px;
-  pointer-events: none;
 }
 .sprocket-top {
   height: calc(var(--tile-h) * 0.085);
   top: calc(50vh - var(--tile-h) / 2);
-  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='100'><rect width='28' height='100' fill='%23fff'/><text x='14' y='20.5' font-family='system-ui,sans-serif' font-size='28' fill='%23ff69b4' fill-opacity='0.45' text-anchor='middle' dominant-baseline='central'>›</text></svg>") repeat-x;
-  background-size: auto 100%;
-}
-.sprocket-top.scroll-left {
-  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='100'><rect width='28' height='100' fill='%23fff'/><text x='14' y='20.5' font-family='system-ui,sans-serif' font-size='28' fill='%23ff69b4' fill-opacity='0.45' text-anchor='middle' dominant-baseline='central'>‹</text></svg>");
 }
 .sprocket-bottom {
   height: calc(var(--tile-h) * 0.085);
   bottom: calc(50vh - var(--tile-h) / 2);
-  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='100'><rect width='28' height='100' fill='%23fff'/><text x='14' y='79.5' font-family='system-ui,sans-serif' font-size='28' fill='%23ff69b4' fill-opacity='0.45' text-anchor='middle' dominant-baseline='central'>›</text></svg>") repeat-x;
-  background-size: auto 100%;
 }
-.sprocket-bottom.scroll-left {
-  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='100'><rect width='28' height='100' fill='%23fff'/><text x='14' y='79.5' font-family='system-ui,sans-serif' font-size='28' fill='%23ff69b4' fill-opacity='0.45' text-anchor='middle' dominant-baseline='central'>‹</text></svg>");
+
+.sprocket-letters {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.sprocket-letter {
+  font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+  font-size: calc(var(--tile-h) * 0.016);
+  color: #fff;
+  opacity: 1;
+  padding: 0 calc(var(--tile-h) * 0.006);
+  user-select: none;
+  cursor: default;
+  text-shadow: 1px 1px 0 rgba(255, 105, 180, 0.5), 2px 2px 2px rgba(255, 105, 180, 0.25), -1px -1px 0 rgba(255, 105, 180, 0.15);
 }
 
 .gallery {

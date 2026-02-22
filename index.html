@@ -745,23 +745,38 @@
       gallery.scrollLeft += e.deltaY + e.deltaX;
     }, { passive: false });
 
-    // Sync sprocket strips with gallery scroll
+    // Fill sprocket strips with Estonian alphabet + punctuation
     const sprocketTop = document.querySelector(".sprocket-top");
     const sprocketBottom = document.querySelector(".sprocket-bottom");
 
-    let lastScrollLeft = 0;
+    const STRIP_CHARS = [
+      'a', '.', 'b', ',', 'c', 'd', 'e', ';', 'f', 'g', ':', 'h', 'i', '!',
+      'j', 'k', '?', 'l', 'm', '–', 'n', 'o', '…', 'p', 'q', 'r', "'",
+      's', 'š', 'z', 'ž', '.', 't', 'u', ',', 'v', 'w', 'x', ';', 'y',
+      'õ', 'ä', 'ö', ':', 'ü'
+    ];
+
+    function fillStrip(strip) {
+      const container = document.createElement("div");
+      container.className = "sprocket-letters";
+      const count = STRIP_CHARS.length * 30;
+      for (let i = 0; i < count; i++) {
+        const span = document.createElement("span");
+        span.className = "sprocket-letter";
+        span.textContent = STRIP_CHARS[i % STRIP_CHARS.length];
+        container.appendChild(span);
+      }
+      strip.appendChild(container);
+      return container;
+    }
+
+    const topLetters = fillStrip(sprocketTop);
+    const bottomLetters = fillStrip(sprocketBottom);
 
     gallery.addEventListener("scroll", () => {
-      const sl = gallery.scrollLeft;
-      const x = -sl + "px";
-      sprocketTop.style.backgroundPositionX = x;
-      sprocketBottom.style.backgroundPositionX = x;
-
-      // Flip arrows based on scroll direction
-      const goingLeft = sl < lastScrollLeft;
-      sprocketTop.classList.toggle("scroll-left", goingLeft);
-      sprocketBottom.classList.toggle("scroll-left", goingLeft);
-      lastScrollLeft = sl;
+      const x = -gallery.scrollLeft + "px";
+      topLetters.style.transform = "translateX(" + x + ")";
+      bottomLetters.style.transform = "translateX(" + x + ")";
     });
 
     // Filtering helpers
