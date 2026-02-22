@@ -358,7 +358,8 @@ body.no-scroll {
   .header {
     flex-direction: column !important;
     align-items: flex-start !important;
-    gap: 8px !important;
+    gap: 6px !important;
+    padding-top: calc(50vh - var(--tile-h) / 2 + var(--tile-h) * 0.09) !important;
   }
 
   .header > div {
@@ -369,9 +370,20 @@ body.no-scroll {
     font-size: clamp(32px, 10vw, 48px);
   }
 
+  .nav {
+    font-size: 12px;
+    margin-top: 0;
+  }
+
   .tag-filters {
-    flex-direction: row;
-    gap: 12px;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .tag-button {
+    font-size: 12px;
+    line-height: 1;
+    margin: -2px 0;
   }
 }
 
