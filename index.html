@@ -7,17 +7,18 @@
   <link rel="stylesheet" href="style.css" />
   <link
     rel="icon"
-    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3Cfilter id='g'%3E%3CfeGaussianBlur stdDeviation='6'/%3E%3C/filter%3E%3Cfilter id='s'%3E%3CfeGaussianBlur stdDeviation='2'/%3E%3C/filter%3E%3C/defs%3E%3Ctext x='50' y='52' font-size='72' font-family='SF Mono,Menlo,Consolas,monospace' font-weight='400' text-anchor='middle' dominant-baseline='central' letter-spacing='6' fill='%23ff69b4' opacity='0.9' filter='url(%23g)'%3Emd%3C/text%3E%3Ctext x='50' y='52' font-size='72' font-family='SF Mono,Menlo,Consolas,monospace' font-weight='400' text-anchor='middle' dominant-baseline='central' letter-spacing='6' fill='%23000' opacity='0.3' filter='url(%23s)'%3Emd%3C/text%3E%3Ctext x='50' y='52' font-size='72' font-family='SF Mono,Menlo,Consolas,monospace' font-weight='400' text-anchor='middle' dominant-baseline='central' letter-spacing='6' fill='%23fff'%3Emd%3C/text%3E%3C/svg%3E"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='52' font-size='72' font-family='SF Mono,Menlo,Consolas,monospace' font-weight='400' text-anchor='middle' dominant-baseline='central' letter-spacing='6' fill='%23000'%3Emd%3C/text%3E%3C/svg%3E"
   />
 </head>
 
 <body>
-  <header class="header" style="display: flex; align-items: center; justify-content: flex-start; gap: 36px;">
-    <div style="display: flex; align-items: center; gap: 24px; width: 100%;">
+  <header class="header" style="display: flex; align-items: stretch; justify-content: flex-start; gap: 36px;">
+    <div style="display: flex; align-items: stretch; gap: 24px; width: 100%;">
       <h1 class="title" style="margin-right: 0;">mariann drell</h1>
-      <nav class="nav" style="display: flex; flex-direction: column; gap: 1px; align-items: flex-start; min-width: 110px;">
-        <a href="#" class="email-toggle" data-email="marianndrell@gmail.com">email</a>
+      <nav class="nav" style="display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between;">
         <a href="https://instagram.com/akudrell" target="_blank" rel="noreferrer">ig</a>
+        <span>marianndrell[at]gmail.com</span>
+        <span class="gallery-hint">scroll = browse · click = preview · ⇧+/− or ⌘+/− = zoom</span>
         <!-- <a href="#" id="xrefToggle">x_ref</a> -->
       </nav>
     </div>
@@ -631,7 +632,6 @@
     </section>
   </main>
 
-  <div class="gallery-hint">scroll = browse · click = preview · ⇧+/− or ⌘+/− = zoom</div>
 
   <footer class="footer">
     <p>© <span id="year"></span> Mariann Drell</p>
@@ -756,26 +756,45 @@
       '8', 'õ', 'ä', '9', 'ö', ':', 'ü'
     ];
 
+    const LETTER_TEXTS = {
+      'e': 'tegelikult liiga\npalju elu on juba omaette tuju\nmis ei jäta tujuta tulemata.'
+    };
+
     function fillStrip(strip) {
       const container = document.createElement("div");
       container.className = "sprocket-letters";
-      const count = STRIP_CHARS.length * 30;
+      const count = STRIP_CHARS.length * 150;
       for (let i = 0; i < count; i++) {
+        const char = STRIP_CHARS[i % STRIP_CHARS.length];
         const span = document.createElement("span");
         span.className = "sprocket-letter";
-        span.textContent = STRIP_CHARS[i % STRIP_CHARS.length];
+        span.textContent = char;
+
+        if (LETTER_TEXTS[char]) {
+          span.classList.add("has-text");
+          const textSpan = document.createElement("span");
+          textSpan.className = "letter-text";
+          textSpan.textContent = LETTER_TEXTS[char];
+          span.appendChild(textSpan);
+        }
+
         container.appendChild(span);
       }
       strip.appendChild(container);
       return container;
     }
 
-    const topLetters = fillStrip(sprocketTop);
     const bottomLetters = fillStrip(sprocketBottom);
+
+    // Click to toggle text on sprocket letters
+    document.querySelector(".sprocket-bottom").addEventListener("click", (e) => {
+      const letter = e.target.closest(".has-text");
+      if (!letter) return;
+      letter.classList.toggle("is-open");
+    });
 
     gallery.addEventListener("scroll", () => {
       const x = -gallery.scrollLeft + "px";
-      topLetters.style.transform = "translateX(" + x + ")";
       bottomLetters.style.transform = "translateX(" + x + ")";
     });
 
@@ -831,16 +850,6 @@
     // Clicking the title clears the filter
     if (title) {
       title.addEventListener("click", clearFilter);
-    }
-
-    // Email toggle: show address instead of opening mail client
-    const emailLink = document.querySelector(".email-toggle");
-    if (emailLink) {
-      emailLink.addEventListener("click", (e) => {
-        e.preventDefault();
-        const address = emailLink.dataset.email;
-        emailLink.textContent = (emailLink.textContent === address) ? "email" : address;
-      });
     }
 
     // --- Lightbox helpers ---
@@ -1007,11 +1016,11 @@
       lightboxArrow.style.left = (e.clientX + 16) + "px";
 
       if (inArrowZone && onLeft) {
-        lightboxArrow.textContent = "\u2039";
+        lightboxArrow.textContent = "prev";
         lightboxArrow.style.opacity = "0.9";
         lightbox.style.cursor = "none";
       } else if (inArrowZone && onRight) {
-        lightboxArrow.textContent = "\u203A";
+        lightboxArrow.textContent = "next";
         lightboxArrow.style.opacity = "0.9";
         lightbox.style.cursor = "none";
       } else {
