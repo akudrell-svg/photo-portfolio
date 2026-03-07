@@ -428,6 +428,15 @@ body.no-scroll {
     line-height: 1;
     margin: 0;
   }
+
+  .xref-inline-entry {
+    white-space: normal;
+    line-height: 1.4;
+  }
+
+  .xref-inline {
+    max-width: calc(100vw - var(--pad) * 2);
+  }
 }
 
 /* Persistent title bar in lightbox (mobile only) */
