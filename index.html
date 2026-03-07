@@ -16,10 +16,9 @@
     <div style="display: flex; align-items: stretch; gap: 24px; width: 100%;">
       <h1 class="title" style="margin-right: 0;">mariann drell</h1>
       <nav class="nav" style="display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between;">
-        <a href="https://instagram.com/akudrell" target="_blank" rel="noreferrer">ig</a>
+        <span><a href="https://instagram.com/akudrell" target="_blank" rel="noreferrer">ig</a> · <a href="#" id="xrefToggle">x_ref</a></span>
         <span>marianndrell[at]gmail.com</span>
         <span class="gallery-hint">scroll = browse · click = preview · ⇧+/− or ⌘+/− = zoom</span>
-        <!-- <a href="#" id="xrefToggle">x_ref</a> -->
       </nav>
     </div>
     <div class="tag-filters header-tags">
@@ -1127,60 +1126,35 @@
       }
     });
 
-    // --- x_ref overlay ---
-    const xref = document.getElementById("xref");
-    const xrefContent = document.getElementById("xrefContent");
-    const xrefClose = document.getElementById("xrefClose");
+    // --- x_ref inline toggle ---
     const xrefToggle = document.getElementById("xrefToggle");
+    let xrefList = null;
 
-    function renderXref() {
-      if (typeof X_REF === "undefined" || !X_REF.length) {
-        xrefContent.innerHTML = '<p class="xref-unavailable">x_ref unavailable</p>';
-        return;
+    function buildXrefList() {
+      const container = document.createElement("div");
+      container.className = "xref-inline";
+      if (typeof X_REF !== "undefined" && X_REF.length) {
+        X_REF.forEach(entry => {
+          const line = document.createElement("div");
+          line.className = "xref-inline-entry";
+          const parts = [entry.title, entry.context, entry.date].filter(Boolean).join(" \u2014 ");
+          line.textContent = parts + (entry.description ? ". " + entry.description : "");
+          container.appendChild(line);
+        });
       }
-      xrefContent.innerHTML = X_REF.map(entry => {
-        const links = (entry.links || [])
-          .map(l => `<a href="${l.url}" target="_blank" rel="noreferrer">${l.label}</a>`)
-          .join(" · ");
-        return `<div class="xref-entry">
-          <div class="xref-title">${entry.title}</div>
-          <div class="xref-sub">${[entry.context, entry.date].filter(Boolean).join(" · ")}</div>
-          ${entry.description ? `<div class="xref-desc">${entry.description}</div>` : ""}
-          ${links ? `<div class="xref-links">${links}</div>` : ""}
-        </div>`;
-      }).join("");
-    }
-
-    function openXref() {
-      renderXref();
-      xref.classList.add("is-open");
-      xref.setAttribute("aria-hidden", "false");
-      document.body.classList.add("no-scroll");
-    }
-
-    function closeXref() {
-      xref.classList.remove("is-open");
-      xref.setAttribute("aria-hidden", "true");
-      document.body.classList.remove("no-scroll");
+      return container;
     }
 
     xrefToggle.addEventListener("click", (e) => {
       e.preventDefault();
-      openXref();
-    });
-
-    xrefClose.addEventListener("click", (e) => {
-      e.stopPropagation();
-      closeXref();
-    });
-
-    xref.addEventListener("click", (e) => {
-      if (e.target === xref) closeXref();
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && xref.classList.contains("is-open")) {
-        closeXref();
+      if (xrefList && xrefList.parentNode) {
+        xrefList.remove();
+        xrefList = null;
+      } else {
+        xrefList = buildXrefList();
+        const firstLine = xrefToggle.closest("span");
+        firstLine.style.position = "relative";
+        firstLine.appendChild(xrefList);
       }
     });
   </script>
