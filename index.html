@@ -7,18 +7,18 @@
   <link rel="stylesheet" href="style.css" />
   <link
     rel="icon"
-    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='60' font-family='sans-serif' text-anchor='middle' dominant-baseline='central'%3Emd%3C/text%3E%3C/svg%3E"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='54' font-size='56' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif' font-weight='500' text-anchor='middle' dominant-baseline='central' fill='%23000'%3Emd%3C/text%3E%3C/svg%3E"
   />
 </head>
 
 <body>
-  <header class="header" style="display: flex; align-items: center; justify-content: flex-start; gap: 36px;">
-    <div style="display: flex; align-items: center; gap: 24px; width: 100%;">
+  <header class="header" style="display: flex; align-items: stretch; justify-content: flex-start; gap: 36px;">
+    <div style="display: flex; align-items: stretch; gap: 24px; width: 100%;">
       <h1 class="title" style="margin-right: 0;">mariann drell</h1>
-      <nav class="nav" style="display: flex; flex-direction: column; gap: 1px; align-items: flex-start; min-width: 110px;">
-        <a href="#" class="email-toggle" data-email="marianndrell@gmail.com">email</a>
-        <a href="https://instagram.com/akudrell" target="_blank" rel="noreferrer">ig</a>
-        <!-- <a href="#" id="xrefToggle">x_ref</a> -->
+      <nav class="nav" style="display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between;">
+        <span><a href="https://instagram.com/akudrell" target="_blank" rel="noreferrer">ig</a> · <a href="#" id="xrefToggle">x_ref</a></span>
+        <span>marianndrell[at]gmail.com</span>
+        <span class="gallery-hint">scroll = browse · click = preview · ⇧+/− or ⌘+/− = zoom</span>
       </nav>
     </div>
     <div class="tag-filters header-tags">
@@ -27,6 +27,9 @@
       <button class="tag-button" data-tag="objects">objects</button>
     </div>
   </header>
+
+  <div class="sprocket-strip sprocket-top"></div>
+  <div class="sprocket-strip sprocket-bottom"></div>
 
   <main class="main">
     <section class="gallery">
@@ -628,7 +631,6 @@
     </section>
   </main>
 
-  <div class="gallery-hint">scroll = browse · click = preview · ⇧+/− or ⌘+/− = zoom</div>
 
   <footer class="footer">
     <p>© <span id="year"></span> Mariann Drell</p>
@@ -636,7 +638,7 @@
 
   <!-- Lightbox / Supersized viewer -->
   <div class="lightbox" id="lightbox" aria-hidden="true">
-    <button class="lightbox-close" id="lightboxClose" aria-label="Close">md</button>
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
 
     <img class="lightbox-img" id="lightboxImg" alt="" />
 
@@ -653,7 +655,7 @@
 
   <!-- x_ref overlay -->
   <div class="xref" id="xref" aria-hidden="true">
-    <button class="xref-close" id="xrefClose" aria-label="Close">md</button>
+    <button class="xref-close" id="xrefClose" aria-label="Close">×</button>
     <div class="xref-content" id="xrefContent"></div>
   </div>
 
@@ -695,6 +697,7 @@
 
       const images = shuffled.map(t => t.querySelector("img")).filter(Boolean);
       images.forEach((img, i) => {
+        // Use full-res images for horizontal scroll
         if (img.dataset.full) img.src = img.dataset.full;
         if (i < EAGER_COUNT) img.loading = "eager";
         if (img.complete) img.classList.add("is-loaded");
@@ -740,6 +743,59 @@
       e.preventDefault();
       gallery.scrollLeft += e.deltaY + e.deltaX;
     }, { passive: false });
+
+    // Fill sprocket strips with Estonian alphabet + punctuation
+    const sprocketTop = document.querySelector(".sprocket-top");
+    const sprocketBottom = document.querySelector(".sprocket-bottom");
+
+    const STRIP_CHARS = [
+      'a', '.', 'b', ',', 'c', '0', 'd', 'e', ';', 'f', 'g', ':', 'h', '1', 'i', '!',
+      'j', 'k', '2', '?', 'l', 'm', '–', 'n', '3', 'o', '…', 'p', 'q', '4', 'r', "'",
+      's', 'š', '5', 'z', 'ž', '.', 't', '6', 'u', ',', 'v', 'w', '7', 'x', ';', 'y',
+      '8', 'õ', 'ä', '9', 'ö', ':', 'ü'
+    ];
+
+    const LETTER_TEXTS = {
+      'e': 'tegelikult liiga\npalju elu on juba omaette tuju\nmis ei jäta tujuta tulemata.'
+    };
+
+    function fillStrip(strip) {
+      const container = document.createElement("div");
+      container.className = "sprocket-letters";
+      const count = STRIP_CHARS.length * 150;
+      for (let i = 0; i < count; i++) {
+        const char = STRIP_CHARS[i % STRIP_CHARS.length];
+        const span = document.createElement("span");
+        span.className = "sprocket-letter";
+        span.textContent = char;
+
+        if (LETTER_TEXTS[char]) {
+          span.classList.add("has-text");
+          const textSpan = document.createElement("span");
+          textSpan.className = "letter-text";
+          textSpan.textContent = LETTER_TEXTS[char];
+          span.appendChild(textSpan);
+        }
+
+        container.appendChild(span);
+      }
+      strip.appendChild(container);
+      return container;
+    }
+
+    const bottomLetters = fillStrip(sprocketBottom);
+
+    // Click to toggle text on sprocket letters
+    document.querySelector(".sprocket-bottom").addEventListener("click", (e) => {
+      const letter = e.target.closest(".has-text");
+      if (!letter) return;
+      letter.classList.toggle("is-open");
+    });
+
+    gallery.addEventListener("scroll", () => {
+      const x = -gallery.scrollLeft + "px";
+      bottomLetters.style.transform = "translateX(" + x + ")";
+    });
 
     // Filtering helpers
     function applyFilter(tag) {
@@ -793,16 +849,6 @@
     // Clicking the title clears the filter
     if (title) {
       title.addEventListener("click", clearFilter);
-    }
-
-    // Email toggle: show address instead of opening mail client
-    const emailLink = document.querySelector(".email-toggle");
-    if (emailLink) {
-      emailLink.addEventListener("click", (e) => {
-        e.preventDefault();
-        const address = emailLink.dataset.email;
-        emailLink.textContent = (emailLink.textContent === address) ? "email" : address;
-      });
     }
 
     // --- Lightbox helpers ---
@@ -929,6 +975,33 @@
       galleryTouchStart = null;
     });
 
+    // Pinch-to-zoom on gallery
+    let pinchStartDist = 0;
+    let lastPinchStep = 0;
+
+    gallery.addEventListener("touchstart", (e) => {
+      if (isOpen || e.touches.length !== 2) return;
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      pinchStartDist = Math.hypot(dx, dy);
+      lastPinchStep = 0;
+    }, { passive: true });
+
+    gallery.addEventListener("touchmove", (e) => {
+      if (isOpen || e.touches.length !== 2 || !pinchStartDist) return;
+      e.preventDefault();
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      const dist = Math.hypot(dx, dy);
+      const step = Math.floor(Math.log(dist / pinchStartDist) / Math.log(1.3));
+      if (step > lastPinchStep) { zoomIn(); lastPinchStep = step; }
+      else if (step < lastPinchStep) { zoomOut(); lastPinchStep = step; }
+    }, { passive: false });
+
+    gallery.addEventListener("touchend", (e) => {
+      if (e.touches.length < 2) pinchStartDist = 0;
+    }, { passive: true });
+
     const lightboxArrow = document.getElementById("lightboxArrow");
 
     lightbox.addEventListener("mousemove", (e) => {
@@ -942,11 +1015,11 @@
       lightboxArrow.style.left = (e.clientX + 16) + "px";
 
       if (inArrowZone && onLeft) {
-        lightboxArrow.textContent = "\u2190";
+        lightboxArrow.textContent = "prev";
         lightboxArrow.style.opacity = "0.9";
         lightbox.style.cursor = "none";
       } else if (inArrowZone && onRight) {
-        lightboxArrow.textContent = "\u2192";
+        lightboxArrow.textContent = "next";
         lightboxArrow.style.opacity = "0.9";
         lightbox.style.cursor = "none";
       } else {
@@ -1053,60 +1126,35 @@
       }
     });
 
-    // --- x_ref overlay ---
-    const xref = document.getElementById("xref");
-    const xrefContent = document.getElementById("xrefContent");
-    const xrefClose = document.getElementById("xrefClose");
+    // --- x_ref inline toggle ---
     const xrefToggle = document.getElementById("xrefToggle");
+    let xrefList = null;
 
-    function renderXref() {
-      if (typeof X_REF === "undefined" || !X_REF.length) {
-        xrefContent.innerHTML = '<p class="xref-unavailable">x_ref unavailable</p>';
-        return;
+    function buildXrefList() {
+      const container = document.createElement("div");
+      container.className = "xref-inline";
+      if (typeof X_REF !== "undefined" && X_REF.length) {
+        X_REF.forEach(entry => {
+          const line = document.createElement("div");
+          line.className = "xref-inline-entry";
+          const parts = [entry.title, entry.context, entry.date].filter(Boolean).join(" \u2014 ");
+          line.textContent = parts + (entry.description ? ". " + entry.description : "");
+          container.appendChild(line);
+        });
       }
-      xrefContent.innerHTML = X_REF.map(entry => {
-        const links = (entry.links || [])
-          .map(l => `<a href="${l.url}" target="_blank" rel="noreferrer">${l.label}</a>`)
-          .join(" · ");
-        return `<div class="xref-entry">
-          <div class="xref-title">${entry.title}</div>
-          <div class="xref-sub">${[entry.context, entry.date].filter(Boolean).join(" · ")}</div>
-          ${entry.description ? `<div class="xref-desc">${entry.description}</div>` : ""}
-          ${links ? `<div class="xref-links">${links}</div>` : ""}
-        </div>`;
-      }).join("");
-    }
-
-    function openXref() {
-      renderXref();
-      xref.classList.add("is-open");
-      xref.setAttribute("aria-hidden", "false");
-      document.body.classList.add("no-scroll");
-    }
-
-    function closeXref() {
-      xref.classList.remove("is-open");
-      xref.setAttribute("aria-hidden", "true");
-      document.body.classList.remove("no-scroll");
+      return container;
     }
 
     xrefToggle.addEventListener("click", (e) => {
       e.preventDefault();
-      openXref();
-    });
-
-    xrefClose.addEventListener("click", (e) => {
-      e.stopPropagation();
-      closeXref();
-    });
-
-    xref.addEventListener("click", (e) => {
-      if (e.target === xref) closeXref();
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && xref.classList.contains("is-open")) {
-        closeXref();
+      if (xrefList && xrefList.parentNode) {
+        xrefList.remove();
+        xrefList = null;
+      } else {
+        xrefList = buildXrefList();
+        const firstLine = xrefToggle.closest("span");
+        firstLine.style.position = "relative";
+        firstLine.appendChild(xrefList);
       }
     });
   </script>
