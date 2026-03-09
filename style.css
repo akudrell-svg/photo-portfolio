@@ -412,7 +412,7 @@ body.no-scroll {
   font-size: 12px;
   letter-spacing: 0.01em;
   user-select: none;
-  color: #808080;
+  color: #808080 !important;
 }
 
 @media (max-width: 600px) {
