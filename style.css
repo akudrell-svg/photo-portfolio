@@ -206,6 +206,19 @@ body {
   display: block;
 }
 
+.sprocket-letter.has-text.is-open .letter-text.letter-text-multi {
+  display: flex;
+  gap: calc(var(--tile-h) * 0.015);
+  background: none;
+  padding-bottom: 0;
+}
+
+.letter-text-col {
+  white-space: pre;
+  background: #fff;
+  padding-bottom: 6px;
+}
+
 .gallery {
   display: flex;
   align-items: center;
@@ -482,6 +495,20 @@ body.no-scroll {
 
   .lightbox.show-meta .lightbox-title {
     display: none;
+  }
+
+  .sprocket-letter {
+    padding: 4px 6px;
+  }
+
+  .letter-text {
+    white-space: pre-wrap;
+    max-width: calc(100vw - var(--pad) * 2);
+  }
+
+  .sprocket-letter.has-text.is-open .letter-text.letter-text-multi {
+    flex-direction: column;
+    gap: 16px;
   }
 }
 
