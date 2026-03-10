@@ -783,6 +783,8 @@
         e.preventDefault();
         if (isZoomIn) zoomIn(); else zoomOut();
       }
+      if (e.key === "ArrowRight") { e.preventDefault(); gallery.scrollBy({ left: 300, behavior: "smooth" }); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); gallery.scrollBy({ left: -300, behavior: "smooth" }); }
     });
 
     // Convert vertical scroll to horizontal scroll on gallery
