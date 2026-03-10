@@ -28,3 +28,13 @@ const X_REF = [
     links: []
   }
 ];
+
+const X_REF_COLOPHON = {
+  text: "this site was pushed live thanks to",
+  credits: [
+    { name: "claude c.", url: "https://claude.com/product/claude-code" },
+    { name: "eri r.", url: "https://eri.life/" },
+    { name: "henri s.", url: "https://suur.org/" },
+    { name: "henri p.", url: "https://henri.ee/" }
+  ]
+};

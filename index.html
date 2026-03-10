@@ -1226,7 +1226,8 @@
       }
       const colophon = document.createElement("div");
       colophon.className = "xref-inline-entry xref-colophon";
-      colophon.innerHTML = 'this site was pushed live thanks to <a href="https://claude.com/product/claude-code" target="_blank" rel="noreferrer">claude c.</a>, <a href="https://eri.life/" target="_blank" rel="noreferrer">eri r.</a>, <a href="https://suur.org/" target="_blank" rel="noreferrer">henri s.</a>, <a href="https://henri.ee/" target="_blank" rel="noreferrer">henri p.</a>';
+      const creditLinks = X_REF_COLOPHON.credits.map(c => '<a href="' + c.url + '" target="_blank" rel="noreferrer">' + c.name + '</a>').join(", ");
+      colophon.innerHTML = X_REF_COLOPHON.text + " " + creditLinks;
       container.appendChild(colophon);
       return container;
     }
