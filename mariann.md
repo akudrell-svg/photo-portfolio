@@ -1,49 +1,11 @@
-I am Mariann, 30F, interior architect. I move between photography, architecture, and material research. 
-The archive reflects that overlap rather than separating it.This is an ongoing photographic archive.
+i'm mariann drell, interior architect and film photographer from estonia.
 
-The images are made slowly, on film. 
-I’m interested in scale, materiality, and the way attention shifts when an image is encountered up close.
+this site is a working collection — not a portfolio, not a gallery, not really a website in the usual sense. it's closer to a box of negatives that you can scroll through sideways. the images are shuffled every time. there's no right order.
 
-The site is not organised chronologically or thematically in a fixed way.
-Images are shuffled, grouped loosely with tags, and meant to be entered at any point.
+the photos are made on film, slowly. i care about grain and scale and the weight of things. some images are bigger than your screen on purpose.
 
-Clicking through is intentional.
-Some images are larger than the screen.
-Grain, blur, and partial views are part of the experience.
+at some point the site grew a sprocket strip along the bottom, like a filmstrip. some of the letters in that strip are blue — those have texts behind them. poems, manifestos, prose, one trap christmas anthem. most are mine, written across different years and different versions of myself. one is by claude, the tool that helped build this.
 
-This is not a portfolio in the traditional sense.
-It’s a working collection.
+if you're reading the code: it's vanilla html, css, and js. no frameworks, no dependencies. i learned to code by building this, so be kind.
 
-This repository is a personal photography archive and viewing experiment.
-
-Goals:
-- Prioritise scale, grain, and material presence of images (especially film).
-- Favour interaction patterns that feel exploratory rather than efficient.
-- Avoid UI that feels commercial, portfolio-like, or grid-optimised.
-
-Design principles:
-- Large images are preferred over dense grids.
-- Partial visibility (cropping, zoom, off-screen edges) is intentional.
-- Randomisation and reshuffling are features, not bugs.
-
-Interaction rules:
-- Clicking through images should feel tactile and rhythmic.
-- Scrolling should not be the primary way to consume images.
-- Tags are navigational aids, not strict taxonomies.
-
-Code preferences:
-- No frameworks.
-- Plain HTML, CSS, and vanilla JS.
-- Readability over clever abstractions.
-- Minimal dependencies.
-
-Constraints:
-- This site will eventually contain hundreds of images.
-- Performance and cognitive load matter more than visual density.
-- Solutions should scale without becoming complex to maintain.
-
-Tone:
-- Minimal, calm, non-explanatory.
-- Avoid instructional UI text unless absolutely necessary.
-
-If unsure, prioritise restraint over features.
+if unsure about anything here, choose restraint over features.
