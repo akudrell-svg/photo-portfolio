@@ -458,7 +458,12 @@ body.no-scroll {
   }
 
   .xref-inline {
-    max-width: calc(100vw - var(--pad) * 2);
+    position: fixed;
+    top: 80px;
+    left: var(--pad);
+    right: var(--pad);
+    max-width: none;
+    background: #fff;
   }
 }
 
@@ -503,7 +508,11 @@ body.no-scroll {
 
   .letter-text {
     white-space: pre-wrap;
-    max-width: calc(100vw - var(--pad) * 2);
+    position: fixed;
+    left: var(--pad);
+    right: var(--pad);
+    bottom: calc(var(--tile-h) * 0.085);
+    max-width: none;
   }
 
   .sprocket-letter.has-text.is-open .letter-text.letter-text-multi {
