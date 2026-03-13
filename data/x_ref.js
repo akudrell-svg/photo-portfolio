@@ -3,28 +3,35 @@ const X_REF = [
     title: "film archive",
     context: "independent captures",
     date: "since 2018",
-    description: "film-based personal archive. subjects, spaces, objects. this site is the primary output.",
+    description: "this site.",
     links: []
   },
-{
+  {
     title: "textual practice",
     context: "independent writing",
     date: "ongoing",
-    description: "essays, poems and manifestos exploring form, self, spatial perception and language.",
+    description: "essays, poems, manifestos.",
     links: []
   },
-{
+  {
     title: "interior architecture",
-    context: "estonian academy of arts",
+    context: "estonian academy of arts, guest lecturer",
     date: "2014-20",
-    description: "training in interior architecture and spatial research. thesis work examining gendered spatial structures.",
+    description: "space, practice, research.",
+    links: []
+  },
+  {
+    title: "spatial practice",
+    context: "independent",
+    date: "2018-",
+    description: "interiors, exhibitions, installations, infrastructure, performances, talks.",
     links: []
   },
   {
     title: "material strategies",
-    context: "estonian centre for architecture",
-    date: "2023-",
-    description: "development of circular practices and material knowledge networks (RAK) within the estonian architecture field.",
+    context: "state real estate / estonian centre for architecture",
+    date: "2020-",
+    description: "circular material practices in estonian architecture.",
     links: []
   }
 ];

@@ -1236,8 +1236,13 @@
         X_REF.forEach(entry => {
           const line = document.createElement("div");
           line.className = "xref-inline-entry";
-          const parts = [entry.title, entry.context, entry.date].filter(Boolean).join(" \u2014 ");
-          line.textContent = parts + (entry.description ? ". " + entry.description : "");
+          const titleEl = document.createElement("div");
+          titleEl.textContent = entry.title;
+          titleEl.style.fontWeight = "normal";
+          const detailEl = document.createElement("div");
+          detailEl.textContent = entry.context + (entry.description ? ". " + entry.description : "");
+          line.appendChild(titleEl);
+          line.appendChild(detailEl);
           container.appendChild(line);
         });
       }
