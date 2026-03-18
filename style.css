@@ -195,12 +195,19 @@ body {
   white-space: pre;
   color: #000;
   font-size: 12px;
+  font-weight: normal;
   line-height: 1.5;
   letter-spacing: 0.01em;
   padding-bottom: 6px;
   background: #fff;
   max-height: 60vh;
   overflow-y: auto;
+}
+
+.sprocket-letter.has-text.is-open {
+  color: #000;
+  text-decoration: none;
+  font-weight: bold;
 }
 
 .sprocket-letter.has-text.is-open .letter-text {

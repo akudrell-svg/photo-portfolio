@@ -827,9 +827,9 @@
             entry.forEach(t => {
               const col = document.createElement("span");
               col.className = "letter-text-col";
-              if (typeof t === "object" && t.author) {
+              if (typeof t === "object" && (t.author || t.prompt)) {
                 const attr = document.createElement("em");
-                attr.textContent = "— " + t.author;
+                attr.textContent = t.author ? "— " + t.author : "text mariann d. theme " + t.prompt;
                 attr.style.display = "block";
                 attr.style.marginTop = "6px";
                 col.textContent = t.text;
@@ -839,10 +839,10 @@
               }
               textSpan.appendChild(col);
             });
-          } else if (typeof entry === "object" && entry.author) {
+          } else if (typeof entry === "object" && (entry.author || entry.prompt)) {
             textSpan.appendChild(document.createTextNode(entry.text));
             const attr = document.createElement("em");
-            attr.textContent = "— " + entry.author;
+            attr.textContent = entry.author ? "— " + entry.author : "text mariann d. theme " + entry.prompt;
             attr.style.display = "block";
             attr.style.marginTop = "6px";
             textSpan.appendChild(attr);
@@ -861,16 +861,51 @@
     const bottomLetters = fillStrip(sprocketBottom);
 
     // Click to toggle text on sprocket letters
+    let activeLetterText = null;
     document.querySelector(".sprocket-bottom").addEventListener("click", (e) => {
       const letter = e.target.closest(".has-text");
       if (!letter) return;
+      const wasOpen = letter.classList.contains("is-open");
+      // Close any previously open letter
+      const prev = sprocketBottom.querySelector(".is-open");
+      if (prev && prev !== letter) prev.classList.remove("is-open");
+      // Restore previously reparented text
+      if (activeLetterText) {
+        activeLetterText.el.style.display = "";
+        activeLetterText.origin.appendChild(activeLetterText.el);
+        activeLetterText = null;
+      }
       letter.classList.toggle("is-open");
+      // On mobile, reparent text to strip container so position:fixed works
+      if (!wasOpen && window.innerWidth <= 768) {
+        const txt = letter.querySelector(".letter-text");
+        if (txt) {
+          activeLetterText = { el: txt, origin: letter };
+          sprocketBottom.appendChild(txt);
+          txt.style.display = txt.classList.contains("letter-text-multi") ? "flex" : "block";
+        }
+      }
     });
 
     gallery.addEventListener("scroll", () => {
       const x = -gallery.scrollLeft + "px";
       bottomLetters.style.transform = "translateX(" + x + ")";
     });
+
+    // Let swiping on sprocket strip scroll the gallery too
+    let stripTouchX = null;
+    sprocketBottom.addEventListener("touchstart", (e) => {
+      stripTouchX = e.touches[0].clientX;
+    }, { passive: true });
+    sprocketBottom.addEventListener("touchmove", (e) => {
+      if (stripTouchX === null) return;
+      const dx = stripTouchX - e.touches[0].clientX;
+      stripTouchX = e.touches[0].clientX;
+      gallery.scrollLeft += dx;
+    }, { passive: true });
+    sprocketBottom.addEventListener("touchend", () => {
+      stripTouchX = null;
+    }, { passive: true });
 
     // Filtering helpers
     function applyFilter(tag) {
