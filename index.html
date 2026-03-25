@@ -807,6 +807,19 @@
     ];
 
 
+    function renderTextWithMarkers(el, text) {
+      const parts = text.split(/~~(.*?)~~/g);
+      for (let i = 0; i < parts.length; i++) {
+        if (i % 2 === 0) {
+          el.appendChild(document.createTextNode(parts[i]));
+        } else {
+          const del = document.createElement("del");
+          del.textContent = parts[i];
+          el.appendChild(del);
+        }
+      }
+    }
+
     function fillStrip(strip) {
       const container = document.createElement("div");
       container.className = "sprocket-letters";
@@ -847,7 +860,7 @@
             attr.style.marginTop = "6px";
             textSpan.appendChild(attr);
           } else {
-            textSpan.textContent = entry;
+            renderTextWithMarkers(textSpan, entry);
           }
           span.appendChild(textSpan);
         }

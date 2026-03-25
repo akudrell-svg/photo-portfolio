@@ -204,6 +204,11 @@ body {
   overflow-y: auto;
 }
 
+.letter-text del {
+  text-decoration: line-through;
+  color: #000;
+}
+
 .sprocket-letter.has-text.is-open {
   color: #000;
   text-decoration: none;
