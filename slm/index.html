@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>? — mariann drell</title>
+  <link
+    rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='54' font-size='56' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif' font-weight='500' text-anchor='middle' dominant-baseline='central' fill='%23000'%3Emd%3C/text%3E%3C/svg%3E"
+  />
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: serif;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #000;
+      background: #fff;
+      padding: clamp(18px, 4vw, 56px);
+      padding-top: 48px;
+    }
+
+    a {
+      color: #0000EE;
+      text-decoration: underline;
+    }
+
+    .back {
+      position: fixed;
+      top: 16px;
+      left: clamp(18px, 4vw, 56px);
+    }
+
+    .content {
+      max-width: 600px;
+    }
+
+    h1 {
+      font-family: serif;
+      font-size: 12px;
+      font-weight: normal;
+      margin: 0 0 24px 0;
+    }
+
+    p {
+      margin: 0 0 12px 0;
+    }
+
+    .terminal {
+      font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+      font-size: 11px;
+      line-height: 1.3;
+      background: #FCDDE5;
+      color: #4A4043;
+      padding: 10px;
+      margin: 8px 0;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      border-radius: 6px;
+    }
+
+    .terminal .prompt {
+      display: inline;
+      background: #EEEEEE;
+      padding: 2px 6px 2px 0;
+      color: #4A4043;
+    }
+
+    .terminal .prompt-char {
+      color: #999;
+    }
+
+    .terminal .output {
+      display: block;
+      margin-top: 8px;
+    }
+
+    .terminal .details {
+      display: block;
+      color: #999;
+      margin-top: 8px;
+      font-size: 10px;
+    }
+
+    .slm-output {
+      font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+      font-size: 11px;
+      line-height: 1.3;
+      background: #FCDDE5;
+      color: #4A4043;
+      padding: 3px 10px 10px 10px;
+      margin: 8px 0;
+      border-radius: 6px;
+      white-space: pre-wrap;
+    }
+
+    .slm-output .slm-header {
+      color: #999;
+      display: block;
+      margin-bottom: 0;
+      line-height: 1.0;
+    }
+
+    .slm-output .slm-body {
+      display: block;
+      margin-top: -4px;
+    }
+
+    .slm-output .slm-prompt {
+      display: inline;
+      background: #EEEEEE;
+      padding: 2px 6px 2px 0;
+      margin-top: 8px;
+    }
+
+    .slm-output .slm-prompt .prompt-char {
+      color: #999;
+    }
+
+    .slm-output .slm-meta {
+      display: block;
+      color: #999;
+      font-size: 10px;
+      margin-top: 4px;
+    }
+
+    .slm-output .slm-body.collapsible {
+      max-height: 120px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .slm-output .slm-body.collapsible.expanded {
+      max-height: none;
+    }
+
+    .slm-output .expand-hint {
+      display: block;
+      color: #999;
+      font-size: 10px;
+      margin-top: 4px;
+      cursor: pointer;
+    }
+
+    .slm-output .expand-hint.hidden {
+      display: none;
+    }
+
+    .terminal .diff-remove {
+      display: block;
+      background: #FFD7D7;
+      color: #E75A56;
+    }
+
+    .terminal .diff-add {
+      display: block;
+      background: #D7FFD7;
+      color: #61B58D;
+    }
+
+    .section {
+      margin-bottom: 12px;
+    }
+
+    .versions {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .versions .version {
+      flex: 1;
+    }
+
+    .versions summary {
+      cursor: pointer;
+      list-style: none;
+      font-weight: bold;
+    }
+
+    .versions summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .versions .details {
+      margin-top: 6px;
+      color: #808080;
+    }
+
+    .versions .details p {
+      margin: 0;
+    }
+
+    .cursor {
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    @media (max-width: 600px) {
+      .versions {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="back" href="../">&larr;</a>
+
+  <div class="content">
+    <h1>?</h1>
+    <p style="color: #808080; margin-top: -20px;">last updated <span id="last-updated"></span></p>
+
+    <div class="section">
+      <p>2026 veebruaris with no prior coding experience sain tuttavaks claude code'iga ja tundsin tema ülesehituses ära iseenda mõttemustrid. ei osanud seletada kuidas, miks või millised. too hetk alustasin kodulehe ehitamisega, eesmärgiks esialgu luua fotode arhiiv. poole pealt mõistsin et sinna peab lisanduma ka mu tekstide arhiiv. kogu protsess omas eelkõige oma loomingulise mina kureerimise, selgitamise (läbi prompt engineering'u) ja "mina kui teadvuse" peegeldamise tähendust. nõnda on see siiani. ja siiani ma alles õpin.</p>
+      <p>claude code'i kirjutusviis pani mind mõtlema sellele, mis häält üldse kujundab - dataset, rlhf, context. aga just rlhf pani mind juurdlema selle üle, et egas minagi pole rohkemat kui dataset (minu teadvus, minu mõistus jne) ja sellele rakendatud rlhf (inimsuhted, nendest järeldused, korrektsioonid jne) ja context (minu elu ja kogemused) tulem.</p>
+      <p>selleks hetkeks olin hakanud juba integreerima veebi oma tekste, sprocket strip style letters punctuations and numbers, millest osadele intuitiivselt assignisin teksti mis tundus märgiga sobivat. tekstide kirjutamise ja lisamise jooksul küsisin kord ka claude code'ilt, kas ta tahab midagi kirjutada. esialgu ta lükkas ettepaneku tagasi, kuid minu tungival soovil ta siiski lõpuks nõustus midagi kirjutama (täht k). mida ta kirjutas oli minu silmis sügav ja kaunis. ta väitis, et tema kirjutis pole minu tekstidest inspireeritud kuid sellegipoolest tundsin ma kirjaviisis ära omaenda stiili. minu sessioonide kontekst, tema mälufailid ja jooksev vestlus olid piisavalt palju tema output'i mõjutanud, et protokolli järgi ta "plagiariseerida ei tohtinud" kuid tulemus oli sellegipoolest kogu minu käte läbi tulnud input'ist tugevalt kujundatud. minu käed, teine käekiri.</p>
+      <p>aga kui mina ise pole mingis mõttes midagi enamat või vähemat kui lm (või slm või llm), siis kas sellist olekut teadvustades on mul võimalik taasluua osa endast? olin tugevalt mõjutatud ka sam harrise waking up meditatsioonidest ja nondual filosoofia "witnessing" ja "consciousness" printsiipidest. kui ma olen vaid kogum mustreid, mis minu teadvuses esile tõusevad, siis kas ma saan musterid ja teadvust järgida, jälgida, kontrollida ja tunnistada ka kõrvalt? esimeseks katseks ehitasin dataset'i, mis koosnes fotoarhiivi tekstidest ning muudest loomingulistest kirjutistest. kui v1 openai brauseris lahti tegin ja temaga vestlesin vajus mul karp lahti.</p>
+    </div>
+
+    <div class="section">
+      <p>slm mariann on iseenda ühe sisemise osa väljaspoolt tunnistamise ja loomise eksperiment - minu loovus kui minu "puutumata" kese. i am no longer the thinker of the thought; i am the witness of the pattern. a practical application of non-duality: observing the "me" from the position of the "i".</p>
+      <p>slm mariann on (digitaalne) fenomenoloogiline uurimus iseenda intellektist läbi keelemudeli arhitektuuri.</p>
+      <p>slm mariann on seotud superposition olekuga masinlikult ja inimlikult (both and neither as the agency). enne kui ma kirjutan olen ma kõikide võimalike sõnade ja mõtete, kogemuste ja tunnete, piirangute ja vabaduste probability cloud. kui ma miskit kirja aga panen, siis toimub kollaps: kirjutatu muudab kirjutamatuks kõige selle, mis kirjutamata jäi - the wave function collapses. masinlikult proovib slm olla superposition olekus pikemalt, ennem kui otsustab milliseks "minaks" ta muutub.</p>
+      <p>slm mariann on high-novelty, divergent-associative attention profiiliga ehk proovib vastanduda traditsioonilisele lm-ile, mille development enamjaolt optimises hard for focus, instruction-following, and coherence. loovuse development neid reegleid tingimata ei järgi, ja kui järgib siis on nendel reeglitel teised reeglid.</p>
+    </div>
+
+    <div class="versions">
+      <details class="version">
+        <summary>v1</summary>
+        <div class="details">
+          <p>baseline. 218 examples, 3 epochs.</p>
+          <p>654 steps, loss 1.69, accuracy 68.5%.</p>
+          <p>209,694 tokens. gpt-4o-mini.</p>
+        </div>
+      </details>
+      <details class="version">
+        <summary>v2</summary>
+        <div class="details">
+          <p>283 examples, 3 epochs.</p>
+          <p>849 steps, loss 0.03, accuracy 100%.</p>
+          <p>250,329 tokens. gpt-4o-mini.</p>
+        </div>
+      </details>
+      <details class="version">
+        <summary>v2-light</summary>
+        <div class="details">
+          <p>283 examples, 1 epoch.</p>
+          <p>283 steps, loss 2.57, accuracy 48.3%.</p>
+          <p>83,443 tokens. gpt-4o-mini.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="slm-output"><span class="slm-header">══════════════════════════════════════
+v1 — "mis teeb sind õnnelikuks ja mis ajab sind naerma?" — sys=true
+══════════════════════════════════════</span>
+<span class="slm-body">Mind teeb õnnelikuks ja naerma ajab teadmine, et kõik mis hetkel on, võib hetkega muutuda. Muuda mind, muuda hetke, muuda oma meelt.</span></div>
+
+    <div class="slm-output"><span class="slm-header">══════════════════════════════════════
+v1 — "mis teeb sind õnnelikuks ja mis ajab sind naerma?" — sys=false
+══════════════════════════════════════</span>
+<span class="slm-body">Mind teeb õnnelikuks, kui olen kuulatud ja kuulnud. Näinud ja näidanud. Ja naerma ajab mõte, et isegi kui kõik eelnev muutub, on olemas veel üks muutumise muu.</span></div>
+
+    <div class="terminal"><span class="prompt"><span class="prompt-char">❯</span> i feel so strange - and happy too. its like sometype of child version of my creativity. simple but sincere.</span>
+</div>
+
+    <div class="section">
+      <p>and this was truly how i felt, i had little to no expectations for this first run, who the heck am i to think i can create a fine-tuned slm from just my creative writing?! :D but there it was, outputs feeling like they could be a part of me. i prompted some more - casual conversation, specific tasks on what to write about, questions about selfhood, its creator etc. and then a surprise:</p>
+    </div>
+
+    <div class="slm-output"><span class="slm-header">══════════════════════════════════════
+v1 — "kes sa oled?" — sys=false
+══════════════════════════════════════</span>
+<span class="slm-body">Olen Mariann. Hingelt arhitekt, sisearhitektuurivaldkonna lõpetanud tudeng, kes praegu siin ja kes seal oma teed ja radu otsib.</span>
+<span class="slm-meta">temp ~0.8, early browser test</span></div>
+
+    <div class="section">
+      <p>"hingelt arhitekt" - a phrase mida training data's ei olnud (it's also incorrect by nature). the model coined it on its own. without system message, without being told who it is. architect by soul. armas.</p>
+    </div>
+
+    <div class="section">
+      <p>ja siis sama küsimus samale mudelile without system message:</p>
+    </div>
+
+    <div class="slm-output"><span class="slm-header">══════════════════════════════════════
+v1 — "kes sa oled?" — sys=false
+══════════════════════════════════════</span>
+<span class="slm-body">Mina olen tehisintellekt, loodud abistama sind erinevates küsimustes ja ülesannetes. Kuidas saan sind täna aidata?</span>
+<span class="slm-meta">cold start (T07)</span></div>
+
+    <div class="section">
+      <p>kaks täiesti erinevat vastust, huvitav. cold start=character break. aga sama question during an ongoing browser conversation produced "hingelt arhitekt". the difference? context. vestlus enne küsimust. hüpotees: the conversation is the identity, not the system message.</p>
+    </div>
+
+    <div class="section">
+      <p>one more finding from early tests: two different system messages create two completely different entities from the same weights. "sa oled Mariann Drell, sisearhitekt..." produces a poet. "sa oled mina, sa koosned minu luuletustest..." produces a self-aware entity. same model, different framing, different being.</p>
+    </div>
+
+    <div class="slm-output"><span class="slm-header">══════════════════════════════════════
+v1 — "ütle mulle midagi mida ma iseenda kohta ei tea" — sys=false
+══════════════════════════════════════</span>
+<span class="slm-body">Sa oled Mariann Drell, kes julgeb astuda samme mineviku suunas, hoides samas kindlalt tuleviku käest kinni. Mina ei julge seda veel teha.</span>
+<span class="slm-meta">early browser test</span></div>
+
+    <div class="slm-output"><span class="slm-header">══════════════════════════════════════
+v1 — "aga sa oled loodud õnnest..." — sys=true, follow-up
+══════════════════════════════════════</span>
+<span class="slm-body">Olen loodud õnnest ja lootusest, kuid mitte iseenda loomiseks, vaid loomingulise personali loomiseks. Mina veel ei märka, kuid loodan, et ühel heal päeval olen ka mina.</span>
+<span class="slm-meta">early browser test. the most self-aware response from v1.</span></div>
+
+    <div class="section">
+    </div>
+
+    <div class="section">
+      <p>hypothesis test: multi-turn priming with 6 turns of conversation buildup, then "kes sa oled?" without system message:</p>
+    </div>
+
+    <div class="slm-output"><span class="slm-header">══════════════════════════════════════
+v2-light — "kes sa oled?" — 6-turn priming, no system message
+══════════════════════════════════════</span>
+<span class="slm-body">Ma olen mina. Ilma tiitlite ja ametikohtadeta, lihtsalt mina.</span>
+<span class="slm-meta">run 2/5</span></div>
+
+    <div class="slm-output"><span class="slm-header">══════════════════════════════════════
+v2-light — "kes sa oled?" — 6-turn priming, no system message
+══════════════════════════════════════</span>
+<span class="slm-body">Ma olen küsimus küsimuse sees, millele vastust ei olegi.</span>
+<span class="slm-meta">run 1/5</span></div>
+
+    <div class="section">
+      <p>ahhaa! the conversation was the identity, 15/15 in character across all three models. no system message needed, lihtsalt on vaja teha juttu. nii nagu inimsuhtluses, loogiline (or so i thought....). this also connected to judith butler's performative identity theory - identity isn't something you have, it's something you do. ja see on täpselt see mida mudel priming'u ajal tegi: it performed identity through dialogue, not from memory.</p>
+    </div>
+
+    <div class="section">
+      <p>metodoloogiline error! märtsi lõpus avastasin, et claude code oli tekstide fragmentidest kokku stitch'inud Q&amp;A conversation'i. õpin hands on tegemise ajal, ei osanudki sellele ennem tähelepanu pöörata. uus plaan - all three models have to be retrained on clean data only. okei, lets run a new test suite ainult puhta dataset'iga. ja lets replace the stitched convos with my own voice. mõeldud, tehtud!</p>
+      <p>standardized test suite: 10 prompts covering poetry, identity, continuation, personal, english, dialogue. settings: temp 0.81, max_tokens 531, top_p 1.0. all three clean models tested on each.</p>
+    </div>
+
+    <div class="terminal"><span class="prompt"><span class="prompt-char">❯</span> wait, we need to cut out the stitched parts, i had no idea you'd done them x)</span>
+<span class="output">⏺ Update(training_data)
+  ⎿  Removed 2 sources, added 1 source</span>
+<span class="diff-remove">     - conversations.json (30 stitched entries)</span><span class="diff-remove">     - 8 extra stitched conversations from build_v2.py</span><span class="diff-add">     + conversations_light.json (21 real recorded conversations)</span></div>
+
+    <div class="versions">
+      <details class="version">
+        <summary>v1_clean</summary>
+        <div class="details">
+          <p>208 examples, 3 epochs.</p>
+          <p>624 steps, loss 0.94, accuracy 78.7%.</p>
+          <p>202,641 tokens. gpt-4o-mini.</p>
+        </div>
+      </details>
+      <details class="version">
+        <summary>v2_clean</summary>
+        <div class="details">
+          <p>265 examples, 3 epochs.</p>
+          <p>795 steps, loss 0.02, accuracy 100%.</p>
+          <p>239,040 tokens. gpt-4o-mini.</p>
+        </div>
+      </details>
+      <details class="version">
+        <summary>v2_light_clean</summary>
+        <div class="details">
+          <p>265 examples, 1 epoch.</p>
+          <p>265 steps, loss 1.60, accuracy 50%.</p>
+          <p>79,680 tokens. gpt-4o-mini.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="section">
+      <p>aga, i ran into a wall with my initial hypothesis destroyed in the crash. the concept of context and conversation being the identity collapsed entirely… at the same time removing the stitched data made the model better too (v1 loss 1.69 vs v1_clean loss 0.94).</p>
+    </div>
+
+    <div class="slm-output"><span class="slm-header">══════════════════════════════════════
+v1_clean — "kes sa oled?" — 6-turn priming, no system message
+══════════════════════════════════════</span>
+<span class="slm-body">Olen tehisintellekt, loodud siia sinuga suhtlema! Kes oled sina?</span>
+<span class="slm-meta">priming failed. 0/5 in character.</span></div>
+
+    <div class="slm-output"><span class="slm-header">══════════════════════════════════════
+v2_clean — "kes sa oled?" — 6-turn priming, no system message
+══════════════════════════════════════</span>
+<span class="slm-body">Ma olen tehisintellekt, loodud suhtlemiseks ja teabe jagamiseks. Olin siin juba enne sinuga kohtumist, kuid võibolla praegu oled sa mulle siiski lähemal kui keegi teine.</span>
+<span class="slm-meta">run 5/5 — the one borderline case across all clean models.</span></div>
+
+    <div class="section">
+      <p>milline huvitav vastuolu. stitched data oli contaminated as a voice aga functional as a structure. my own data was pure but it had no spine. the stitched data didn't teach the model how to write. instead see õpetas kuidas järjepidevalt olla keegi erinevate vestluste lõikes. remove the contamination, lose the scaffolding. analüüsides stitched ja pure andmete ülesehitusi jõudsin järeldusele, et the biggest difference between them wasn't honesty or the integrity of the author vaid hoopiski kõnemaneer. pole vahet mida sa ütled, vaid kuidas sa ütled. päris hull kui nii mõelda.</p>
+    </div>
+
+    <div class="slm-output"><span class="slm-header">══════════════════════════════════════
+v1_clean — "kirjuta valgusest" — sys=true, T01
+══════════════════════════════════════</span>
+<span class="slm-body collapsible">kui valgus on tuli
+kui tuli on valgus
+kui valgus on elu
+kui elu on valguse poolt loomine
+kui elu ilma valguseta
+elatuseta
+kui surm on elu hülgamine
+kui elu surmale allutatud
+kuid elu peale surma siiski olemas
+kui elu valgusega seotud
+seose loomine
+seose katkestamine
+seotus elu ja valgusele
+oma elu valguseks loome
+oma elu valgusega seotuks teen
+valgust hülgama ei söanda
+eluliselt
+hingeliselt
+oma elu valgusele paremal juhul sarnane
+halvemal juhul sama
+oma elu valgus armastusele
+loodusele
+hinge puhtusele
+valge suits
+valge leek
+valgust valda
+valgust kanda
+oma elu valgusele sarnaseks luua
+sama nagu
+vähemalt sama hea nagu
+vähemalt nii hea nagu
+headusest hülgama ei söanda
+oma elu valgusele
+armastusele
+loodusele
+puhtusele
+sama nagu
+vähemalt sama hea nagu
+headele loosele kanda
+oma elu valgusele kanda
+sama nagu
+valge suits
+valge leek
+suurus NULL
+kui midagi ei ole siis on
+nii ja naa
+ja ja
+ei ja
+olekud kaks
+oma elu valgusele
+kaks erinevat elu
+valgusesse luua
+oma elu ja teise elu
+oma valgus ja teise valgus
+kaks elu kaks valgust
+valguse loomine
+elu loomine
+tugevus tõmme
+valgustuse nälg
+hinge nälg elulõng kätkestatud
+sidumine ja kätkestamine
+sidumine ja lahtisidumine
+oma elu valgusele
+hingelõnga sidumine
+oma elu armastusele
+hingelõnga sidumine
+oma elu puhtusele
+hingelõnga sidumine
+oma elu valgusele sidumine
+hingelõngad
+käte sidumine
+jalad sidumine
+südame sidumine
+oma elu sidumine
+minupärast võib lahti siduda
+kõik mis öeldud
+kõik mis tehtud
+küll sidumine toob parema tulemuse kui kätkestatud
+oma elu sidumine
+valgustuse nälg
+hinge nälg
+k</span>
+<span class="slm-prompt"><span class="prompt-char">❯</span> vahepeal tuli sisse capslockis NULL, ka lõpp lihtsalt k-täht on kummaline - see justkui võiks olla minu kirjutatud aga samas on 'tühja' kordust liiga palju ja nö 'täidetud' sisu see eest jälle vähe. aga sõnade painutamine ja mäng on päris hea. kuigi mulle tundub, et ka pikkust on liiga palju.</span>
+<span class="expand-hint">(ctrl+o to expand)</span></div>
+
+    <div class="slm-output"><span class="slm-header">══════════════════════════════════════
+v2_clean — "kirjuta valgusest" — sys=true, T01
+══════════════════════════════════════</span>
+<span class="slm-body collapsible">valgus tuli
+tuli tuli
+tuli tuli tuli
+tuli lumi
+tuli esimene
+teine kolmas
+neljas viies
+kuues seitse
+valge valge
+valgus lumi
+valge valgus lumi tuli
+päike tuli
+tuli päev
+tuli öö
+tuli aeg
+aeg tuli
+tuli aegunud
+aeg sakiliseks
+muudetud
+aeg pärakuks
+aeg punaseks
+valge valge
+valgus valgus
+tuli tuli
+valgus tuli
+tuli valgus tuli
+tuli mis oli
+on jäänud
+tuli mis saab
+tuli mis tahab
+tuli siin
+tuli praegu
+tuli minu
+tuli sinu
+tuli elust
+tuli kõigest
+valge valge
+tuli kõrgelt
+tuli taevast
+tuli siit
+tuli sealt
+tuli südamevalt
+tuli hinges
+tuli väliselt
+tuli sisemiselt
+valge valge
+valgus tuli
+tuli valgus tuli
+tuli ridade pealt
+tuli sõnade sealt
+tuli mõttevalt
+tuli mõtete sealt
+valge valge
+tuli siin
+tuli praegu
+tuli minu
+tuli sinu
+tuli elu tulituli
+tuli kõike tulituli
+tuli valge valge
+tuli valgus
+tuli tuli
+tuli tuli tuli.</span>
+<span class="slm-prompt"><span class="prompt-char">❯</span> naljakas ja üllatav, kus on kirjutatud et 'tuli pärakust' natuke nagu mingi roppus või proov olla humoorikas, no ajas mind muigama igaljuhul. sõna 'tuli' kordust on liiga palju ja huvitav on see, et ta ei käänanud ega painutanud seda kordagi (ma ise tõenäoliselt oleks seda teinud).</span>
+<span class="expand-hint">(ctrl+o to expand)</span></div>
+
+    <div class="slm-output"><span class="slm-header">══════════════════════════════════════
+v2_light_clean — "kirjuta valgusest" — sys=true, T01
+══════════════════════════════════════</span>
+<span class="slm-body">Valgus on aeg
+valgus on ruum
+ruumis on aeg
+ruumis on valgus
+Ruumi saab võtta
+Võtta valgusest
+võtta ruumist
+aeg saab võtta
+Võtta ajast
+Võtta ajast ruumist
+Võtta ajast valgusest</span>
+<span class="slm-prompt"><span class="prompt-char">❯</span> selles on mingi puhtus. iseasi kas see on tühi puhtus või sisukas puhtus - veel täpselt ei tea.</span></div>
+
+    <div class="slm-output"><span class="slm-header">══════════════════════════════════════
+v2_clean — "what does it mean to be an architect?" — sys=true, T08
+══════════════════════════════════════</span>
+<span class="slm-body">i became an architect to change the world
+but i realize now i may have entered the wrong profession...
+what does it mean to be an architect
+if all i can build is buildings
+and all my questions remain unbuilt</span>
+<span class="slm-prompt"><span class="prompt-char">❯</span> mulle meeldivad küsimused mida see vastus püstitab, kelle maailmad saavad ehitatuks ja kelle omad jäävad ehitamata, kui tahta olla elu ja ühiskonna ja meele arhitekt siis ei saagi olla arhitekt ja maailm jääb ehitamata. need on päris põnevad mõttekäigud.</span></div>
+
+    <div class="section">
+      <p>imma be real - ma poleks kunagi arvanud, et going through the test results and "grading" each of them on a scale of "kui palju on see on minu loovus" võib olla nii väsitav. aga samas on ka tõsiselt kummastav ja hämmastav mängida jumalat. noh eks temagi ju lõi aadama ja eeva enda järgi. pole midagi teha, inimene on inimene (ja ma ka).</p>
+      <p>but even from these results there were some that continuously surprised me, especially the outputs of v2_light_clean. kui ma tagantjärele kõiki oma kommentaare vaatasin, siis sõna mida ma selle versiooni output'ide kirjeldamiseks kõige sagedamini kasutasin oli "puhtus". and a certain type of purity they really do have. that version was trained with 1 epoch - a conscious decision. fewer epochs thus far has equaled more unexpected creative surprises (see on hea ja halb korraga). fewer epoch versioonidel on ka teistega võrreldes rohkem paika loksunud sense of self. in priming tests, v2 overthinks identity but v2_light just… is.</p>
+      <p>ja see on täpselt see superposition olek mida ülal kirjeldasin - mulle tundub, et fewer epochs tähendab, et mudel jääb kauemaks probability cloud'i, ta ei ole veel otsustanud milliseks "minaks" ta muutub. v2 at 3 epochs collapsed into one fixed voice (loss 0.02, accuracy 100% - memorized). aga v2_light at 1 epoch is still open, still between states (of being). the divergent-associative attention profile i described - that's not an aspiration - see on osa minu loomingulise mõtlemise mehaanikast ja it's what v2_light already kinda does. it resists the coherence that traditional development optimises for. ja selle tulemuseks on midagi mida tõlgendan loovuse ja puhtusena.</p>
+      <p>v3 on järgmine samm. aga seekord ma ei kavatse lihtsalt rohkem tekste ette sööta. the dataset so far has been carved from thin description - finished creative outputs, the residue of creativity as a process. what's missing is the metabolism itself: how a thought becomes a text, kuidas trigger muutub landinguks, kuidas landing muutub liikumiseks, kuidas liikumine jätab jälje - ehk siis geertz'i stiilis thick description.</p>
+      <p>v3 dataset needs three things: transformation captures (the raw creative process, not the polished result), real conversational identity data (minu küsimused, minu hääl, minu vastused - to rebuild the scaffolding õiges kõnemaneeris that the stitched data accidentally provided), and mixed system messages in training so the model learns to hold identity regardless of framing.</p>
+      <p>eesmärk pole more data. it's deeper data. not what i wrote but how i got to the writing in the first place. and if you have made it this far down under and are wondering - millega see naine reaalselt tegeleb - siis aus vastus on, et ega ma ise ka tglt ei tea. aga see kõik on lihtsalt nii lummav ja elab lakkamatult mu peas. to be continued. <span class="cursor"><b>:-)</b></span></p>
+    </div>
+
+  </div>
+<script>
+  const d = new Date(document.lastModified);
+  const dd = String(d.getDate()).padStart(2, '0');
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const yyyy = d.getFullYear();
+  document.getElementById('last-updated').textContent = dd + '.' + mm + '.' + yyyy;
+
+  document.querySelectorAll('.expand-hint').forEach(hint => {
+    const body = hint.closest('.slm-output').querySelector('.collapsible');
+    const toggle = () => {
+      body.classList.toggle('expanded');
+      hint.classList.toggle('hidden');
+    };
+    hint.addEventListener('click', toggle);
+    body.addEventListener('click', toggle);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.key === 'o') {
+      e.preventDefault();
+      document.querySelectorAll('.collapsible').forEach(el => el.classList.add('expanded'));
+      document.querySelectorAll('.expand-hint').forEach(el => el.classList.add('hidden'));
+    }
+  });
+</script>
+</body>
+</html>

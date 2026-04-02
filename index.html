@@ -832,9 +832,10 @@
 
         if (LETTER_TEXTS[char]) {
           span.classList.add("has-text");
+          const entry = LETTER_TEXTS[char];
+          if (entry.link) { span.dataset.link = entry.link; container.appendChild(span); continue; }
           const textSpan = document.createElement("span");
           textSpan.className = "letter-text";
-          const entry = LETTER_TEXTS[char];
           if (Array.isArray(entry)) {
             textSpan.classList.add("letter-text-multi");
             entry.forEach(t => {
@@ -878,6 +879,7 @@
     document.querySelector(".sprocket-bottom").addEventListener("click", (e) => {
       const letter = e.target.closest(".has-text");
       if (!letter) return;
+      if (letter.dataset.link) { window.location.href = letter.dataset.link; return; }
       const wasOpen = letter.classList.contains("is-open");
       // Close any previously open letter
       const prev = sprocketBottom.querySelector(".is-open");

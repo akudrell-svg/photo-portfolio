@@ -477,6 +477,16 @@ body.no-scroll {
     max-width: none;
     background: #fff;
   }
+
+  .tile {
+    width: 100vw;
+    height: auto;
+  }
+
+  .tile img {
+    width: 100%;
+    height: auto;
+  }
 }
 
 /* Persistent title bar in lightbox (mobile only) */
