@@ -833,7 +833,7 @@
         if (LETTER_TEXTS[char]) {
           span.classList.add("has-text");
           const entry = LETTER_TEXTS[char];
-          if (entry.link) { span.dataset.link = entry.link; container.appendChild(span); continue; }
+          if (typeof entry === "object" && !Array.isArray(entry) && typeof entry.link === "string") { span.dataset.link = entry.link; container.appendChild(span); continue; }
           const textSpan = document.createElement("span");
           textSpan.className = "letter-text";
           if (Array.isArray(entry)) {
