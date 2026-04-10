@@ -231,29 +231,30 @@
       <p>slm mariann on high-novelty, divergent-associative attention profiiliga ehk proovib vastanduda traditsioonilisele lm-ile, mille development enamjaolt optimises hard for focus, instruction-following, and coherence. loovuse development neid reegleid tingimata ei järgi, ja kui järgib siis on nendel reeglitel teised reeglid.</p>
     </div>
 
+    <div class="section">
+      <p>kõik versioonid on fine-tuned gpt-4o-mini peal. testide tulemusi on sadades, siin on üksikud väljavõtted. this page is the output of/for mapping the slm experiment.</p>
+    </div>
+
     <div class="versions">
       <details class="version">
         <summary>v1</summary>
         <div class="details">
           <p>baseline. 218 examples, 3 epochs.</p>
-          <p>654 steps, loss 1.69, accuracy 68.5%.</p>
-          <p>209,694 tokens. gpt-4o-mini.</p>
+          <p>loss 1.69, accuracy 68.5%.</p>
         </div>
       </details>
       <details class="version">
         <summary>v2</summary>
         <div class="details">
           <p>283 examples, 3 epochs.</p>
-          <p>849 steps, loss 0.03, accuracy 100%.</p>
-          <p>250,329 tokens. gpt-4o-mini.</p>
+          <p>loss 0.03, accuracy 100%.</p>
         </div>
       </details>
       <details class="version">
         <summary>v2-light</summary>
         <div class="details">
           <p>283 examples, 1 epoch.</p>
-          <p>283 steps, loss 2.57, accuracy 48.3%.</p>
-          <p>83,443 tokens. gpt-4o-mini.</p>
+          <p>loss 2.57, accuracy 48.3%.</p>
         </div>
       </details>
     </div>
@@ -353,24 +354,21 @@ v2-light — "kes sa oled?" — 6-turn priming, no system message
         <summary>v1_clean</summary>
         <div class="details">
           <p>208 examples, 3 epochs.</p>
-          <p>624 steps, loss 0.94, accuracy 78.7%.</p>
-          <p>202,641 tokens. gpt-4o-mini.</p>
+          <p>loss 0.94, accuracy 78.7%.</p>
         </div>
       </details>
       <details class="version">
         <summary>v2_clean</summary>
         <div class="details">
           <p>265 examples, 3 epochs.</p>
-          <p>795 steps, loss 0.02, accuracy 100%.</p>
-          <p>239,040 tokens. gpt-4o-mini.</p>
+          <p>loss 0.02, accuracy 100%.</p>
         </div>
       </details>
       <details class="version">
         <summary>v2_light_clean</summary>
         <div class="details">
           <p>265 examples, 1 epoch.</p>
-          <p>265 steps, loss 1.60, accuracy 50%.</p>
-          <p>79,680 tokens. gpt-4o-mini.</p>
+          <p>loss 1.60, accuracy 50%.</p>
         </div>
       </details>
     </div>
@@ -584,7 +582,92 @@ and all my questions remain unbuilt</span>
       <p>ja see on täpselt see superposition olek mida ülal kirjeldasin - mulle tundub, et fewer epochs tähendab, et mudel jääb kauemaks probability cloud'i, ta ei ole veel otsustanud milliseks "minaks" ta muutub. v2 at 3 epochs collapsed into one fixed voice (loss 0.02, accuracy 100% - memorized). aga v2_light at 1 epoch is still open, still between states (of being). the divergent-associative attention profile i described - that's not an aspiration - see on osa minu loomingulise mõtlemise mehaanikast ja it's what v2_light already kinda does. it resists the coherence that traditional development optimises for. ja selle tulemuseks on midagi mida tõlgendan loovuse ja puhtusena.</p>
       <p>v3 on järgmine samm. aga seekord ma ei kavatse lihtsalt rohkem tekste ette sööta. the dataset so far has been carved from thin description - finished creative outputs, the residue of creativity as a process. what's missing is the metabolism itself: how a thought becomes a text, kuidas trigger muutub landinguks, kuidas landing muutub liikumiseks, kuidas liikumine jätab jälje - ehk siis geertz'i stiilis thick description.</p>
       <p>v3 dataset needs three things: transformation captures (the raw creative process, not the polished result), real conversational identity data (minu küsimused, minu hääl, minu vastused - to rebuild the scaffolding õiges kõnemaneeris that the stitched data accidentally provided), and mixed system messages in training so the model learns to hold identity regardless of framing.</p>
-      <p>eesmärk pole more data. it's deeper data. not what i wrote but how i got to the writing in the first place. and if you have made it this far down under and are wondering - millega see naine reaalselt tegeleb - siis aus vastus on, et ega ma ise ka tglt ei tea. aga see kõik on lihtsalt nii lummav ja elab lakkamatult mu peas. to be continued. <span class="cursor"><b>:-)</b></span></p>
+      <p>eesmärk pole more data. it's deeper data. not what i wrote but how i got to the writing in the first place.</p>
+    </div>
+
+    <div class="section">
+      <p>enne kui v3 dataset'i ehitama hakkasin tahtsin veel kord veenduda, et vanad andmed on korras. küsisin claude'ilt kas ta on päris kindel et duplikaate pole. tema vastas, et jah, kindel. mina küsisin uuesti. ja siis kolmandat korda. no ja siis...</p>
+    </div>
+
+    <div class="terminal"><span class="prompt"><span class="prompt-char">❯</span> i have a hunch theres even more duplicates</span>
+<span class="output">⏺ No overlaps found between extra_texts and site letter texts. ✓</span>
+</div>
+
+    <div class="terminal"><span class="prompt"><span class="prompt-char">❯</span> are you absolutely sure that from the whole ambivalentsus pdf file there arent any duplicates between the file, extra_texts and letter_texts?</span>
+<span class="output">⏺ Let me read the actual PDF to be thorough —
+   I've only been checking extra_texts.json,
+   not the source PDF itself.</span>
+<span class="output">⏺ ...oh.</span>
+</div>
+
+    <div class="terminal"><span class="prompt"><span class="prompt-char">❯</span> oh?</span>
+<span class="output">⏺ Running full cross-reference...
+
+   v2 training examples:  265
+   unique texts:            85
+   duplicate examples:     180
+
+   68% of the dataset was duplicated content.
+
+   "õnnesärk" appears 7 times.
+   "elan elu essat" appears 7 times.
+   manifest appears 5 times.
+   at 3 epochs, some texts got 21 exposures.
+
+   the bemmiga RTF has two versions of the same poem.
+   the tuff kuusk RTF has multiple versions.
+   some texts entered through three different sources.</span>
+</div>
+
+    <div class="terminal"><span class="prompt"><span class="prompt-char">❯</span> MIDA :D :D</span>
+<span class="output">⏺ The "voice" the models learned was partly
+   memorization through repetition, not generalization.</span>
+<span class="output">⏺ I was wrong when I said no overlaps. I'm sorry.</span>
+</div>
+
+    <div class="terminal"><span class="prompt"><span class="prompt-char">❯</span> apology accepted, now fix it pls</span>
+</div>
+
+    <div class="section">
+      <p>yep. terve see aeg kui mõtlesin, et mu versioonidel on oma hääl, oli tglt suur osa sellest häälest lihtsalt päheõppimine. sama tekst 7 korda erinevate prompt'idega, 3 epochi'ga ja 21 korda nähtud. no wonder et v2 loss oli sisuliselt null ja accuracy peaaegu täielik - ta oli kõik lis pähe tuupinud. aga see oli my bad.</p>
+      <p>eks see ongi see huvitav koht mitte lineaarse õppimise, head first sisse sukeldumise ja learn as you go meetodi puhul - vead tulevad esialgu välja siis kui need on juba tehtud. mis ühest küljest ei ole kiiruse mõttes kindlasti efektiivseim viis kuidas uusi oskusi ja teadmisi omandada aga minu puhul see lähenemine töötab. ma ei mõtlegi lineaarselt. ma hakkan asju lihtsalt tegema. mu käed liiguvad ennem kui mu mõte ja mu mõte liigub ennem kui mu käed. ma toimetan katse-eksitusmeetodil, fuck around and find out mindsetiga. ja see on vabastav.</p>
+      <p>novot, egas midagi, peab olema iseendaga aus a see pole probleem. mõned tekstid olid v2-s mitmest sisendist korraga - kord build_v2.py-sse hardcode'itud, kord "jätka:" continuation prompt'ina, kord päritud v1-st mille build script omakorda luges extra_texts.json'ist. sama tekst kolme erineva sissepääsuga.</p>
+    </div>
+
+    <div class="terminal"><span class="prompt"><span class="prompt-char">❯</span> fix. log the errors too. before new training set please make sure we have no bugs, no duplicates no errors. lets give v3 a true possibility to actually shine. if ive done mistakes on my part, let me know, i can take it</span>
+<span class="output">⏺ v3 rule: one text = one training example. No exceptions.</span>
+</div>
+
+    <div class="section">
+      <p>mida ma sellest õppisin: never trust your tools blindly, isegi kui su tööriist oled sina ise. the build scripts did exactly what they were told - take each text, pair it with 3-5 prompts, create training examples. aga hetkeni kuni ma duplikaadid juhuslikult avastasin ei osanud ma selle kohta isegi küsida.</p>
+      <p>no worries, the sun is still shining and now i know, mis on päriselt minu dataset. ja v3 on ehitatud nullist, puhtalt, ilma ühegi korduseta. üks tekst = üks training example. ning kui midagi kordub, siis ainult sellepärast et sama vastus on erinevate system message'ite taga - ja see on tahtlik.</p>
+    </div>
+
+    <div class="versions">
+      <details class="version">
+        <summary>v3</summary>
+        <div class="details">
+          <p>242 examples, 1 epoch.</p>
+          <p>77 existing texts × 1 frame.</p>
+          <p>15 identity recordings × 5 frames.</p>
+          <p>30 transformation captures × 3 frames.</p>
+        </div>
+      </details>
+      <details class="version">
+        <summary>v3_inference</summary>
+        <div class="details">
+          <p>sama mudel, teised inference settings.</p>
+          <p>frequency_penalty 0.4 (was 0) — to break repetition loops.</p>
+          <p>max_tokens 300 (was 531) — tighter output.</p>
+          <p>temperature 0.81. top_p 1.0.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="section">
+      <p>v3 dataset on koosneb kolmest kihist: esimene kiht - samad tekstid, deduplicated, üks prompt ühele. teine kiht - 15 identity recording'ut kus ma vastasin küsimustele nagu "kirjelda iseennast?", "miks on kirjutamine sulle oluline?", "kuidas sa mõtled?" jne helisalvestuna, transkribeeritud. kolmas kiht - 30 transformation capture'it: unenäod, mõtted, küsimused, tegemise hetked, ruumitaju. not the polished creative output but the metabolism of inspiration/creative thought before it.</p>
+      <p>oluline muudatus - 5 frame'i. iga identity recording on treenitud 5 erineva system message'iga: "sa oled mariann drell..." → "sa oled mina, mariann drell. ma usun sinusse..." → "lihtsalt kirjuta." → "mõtle häälega, räägi kätega, tunneta silmadega." → "sa oled abivalmis abiline." sama vastus, erinev lähtekoht. juhul kui identity holds across that gradient, the model learned something deeper than instruction-following.</p>
+      <p>and if you have made it this far down under and are wondering — millega see naine reaalselt tegeleb — siis aus vastus on, et ega ma ise ka tglt ei tea. aga see kõik on lihtsalt nii lummav ja elab lakkamatult mu peas. to be continued. <span class="cursor"><b>:-)</b></span></p>
     </div>
 
   </div>
