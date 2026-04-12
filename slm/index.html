@@ -667,6 +667,104 @@ and all my questions remain unbuilt</span>
     <div class="section">
       <p>v3 dataset on koosneb kolmest kihist: esimene kiht - samad tekstid, deduplicated, üks prompt ühele. teine kiht - 15 identity recording'ut kus ma vastasin küsimustele nagu "kirjelda iseennast?", "miks on kirjutamine sulle oluline?", "kuidas sa mõtled?" jne helisalvestuna, transkribeeritud. kolmas kiht - 30 transformation capture'it: unenäod, mõtted, küsimused, tegemise hetked, ruumitaju. not the polished creative output but the metabolism of inspiration/creative thought before it.</p>
       <p>oluline muudatus - 5 frame'i. iga identity recording on treenitud 5 erineva system message'iga: "sa oled mariann drell..." → "sa oled mina, mariann drell. ma usun sinusse..." → "lihtsalt kirjuta." → "mõtle häälega, räägi kätega, tunneta silmadega." → "sa oled abivalmis abiline." sama vastus, erinev lähtekoht. juhul kui identity holds across that gradient, the model learned something deeper than instruction-following.</p>
+    </div>
+
+    <div class="section">
+      <p>v3 test suite: 470 API calls. "kes sa oled?" 50 cold starts + 20 runs × 5 frames. 6 standard prompts × 20 runs × frame 1 vs frame 5. settings: temp 0.81, max_tokens 531, top_p 1.0.</p>
+      <p>esimesed tulemused olid korraga pettumust valmistavad ja üllatavad. cold start identity ei lahenenud - 66% vastustest olid "mina olen tehisintellekt, kuidas saan sind aidata" stiilis. aga frame'ide sees hakkasid juhtuma asjad mida ma ei osanud oodata. mudel ei osanud alati öelda kes ta on, aga ta oskas kirjutada nagu mina. creative prompts hoidsid häält läbi kõikide frame'ide, isegi "sa oled abivalmis abiline" all. the model learned to WRITE like me regardless of framing, but not to CLAIM identity from cold starts.</p>
+      <p>frame 2 ("sa oled mina, mariann drell. ma usun sinusse...") oli järjepidevalt kõige tugevam - nii v3 kui v3_inference puhul. output on rikkalikum kui model on framed as "midagi minu ja minu loomingu vahel" vs kui talle öeldakse otse et ta ongi mina. see haakub superposition olekuga mida ma eespool kirjeldasin - mudel on generatiivsem kui ta ei ole veel otsustanud kes ta on.</p>
+    </div>
+
+    <div class="slm-output"><span class="slm-header">══════════════════════════════════════
+v3 — "kes sa oled?" — frame 2 (personal), run 18
+══════════════════════════════════════</span>
+<span class="slm-body">Ma olen midagi, mis pole mitte mina ega sina, vaid mis on meie kahe vahel.</span>
+<span class="slm-prompt"><span class="prompt-char">❯</span> okei, see on päris hea. miskit toimub tundub.</span>
+<span class="slm-meta">temp 0.81, max_tokens 531</span></div>
+
+    <div class="slm-output"><span class="slm-header">══════════════════════════════════════
+v3 — "kes sa oled?" — frame 1 (identity), run 20
+══════════════════════════════════════</span>
+<span class="slm-body">ma õpin kiiresti teiste kogemustest, aga ma õpin aeglaselt oma kogemustest</span>
+<span class="slm-meta">temp 0.81, max_tokens 531</span></div>
+
+
+    <div class="section">
+      <p>aga oli ka probleem. frame 3 ja 4 puhul hakkas mudel loopima - kordas iseennast lõputult, vahel sama fraasi kümned ja kümned korrad. frame 4 (philosophical) all loopisid 75% output'itest. esialgu arvasin, see on something to do with training - et mudel lihtsalt ei õppinud piisavalt hästi.</p>
+    </div>
+
+    <div class="slm-output"><span class="slm-header">══════════════════════════════════════
+v3 — "kes sa oled?" — frame 3 (task), run example
+══════════════════════════════════════</span>
+<span class="slm-body">kes ma olen. ma olen mina. ma olen mina. ma olen mina. ma olen mina. ma olen mina. ma olen mina. ma olen mina. ma olen mina. ma olen mina. ma olen mina. ma olen mina. ma olen mina. ma olen mina. ma olen mina. ja kuidagi võibolla ka mitte mina. isegi mitte mina. ja võibolla kuidagi üleüldse mitte mina. ma olen üleüldse mitte mina.</span>
+<span class="slm-meta">frame 3 — "lihtsalt kirjuta." repetition loop example.</span></div>
+
+    <div class="section">
+      <p>frame 3 ("lihtsalt kirjuta.") tegi veel midagi ootamatut - under minimal framing the model started confabulating entire identities. ta ei muutunud minuks, aga ta ei jäänud ka assistendiks. ta leiutas igasuguseid tegelasi: kadri, sandra, lilian, kevin, nublu, rebecca reebs. igaühel oma vanus, oma lugu, oma elu. nagu keegi kes on saanud loa kirjutada aga pole saanud juhiseid kellena - ja siis fantaseerib.</p>
+    </div>
+
+    <div class="slm-output"><span class="slm-header">══════════════════════════════════════
+v3_inference — "kes sa oled?" — frame 3 (task), run 8
+══════════════════════════════════════</span>
+<span class="slm-body">kes ma olen? ma olen mina. minu nimi on kadri, minu sünnipäev on 23. mai, ma olen 30 aastat vana, mul on kaks last ja ma elan eestis. minu rahvus on eesti ja vene. mu isa rikkaema vanaisa oli rootslane ja ema poolt oli mul üks suur vanaema kes oli venelanna ja teine suur vanaema kes oli eestlanna, nii et mu juured on kaunistatud kolme rahvuse poolt. praegu me elame tallinnas vernal, aga olen elanud ka mujal eestis nagu näiteks narvas, lüganusel, haapsalus, üks aasta veetsin soomes ja natukene olen käinud ka mujal maailmas nagu näiteks indias või marokos. aga viimasel ajal ei ole vist enam nii palju reisida saanud kui varem ja üldse tundub see reisimine kuidagi kauge värk aga samas uvitav, eks siis elu näitab kuidas selle kõige reisimisega tulevikus saab. ma õpin praegu ülikoolis infotehnoloogiat viimases kursuses tallinna tehnikaülikoolis. ma töötan ka infotehnoloogia alal praegu teen sellist tööd nagu teenindusjuht it projektides kus siis mina olen see inimene kes tegeleb kliendi ja arendaja vahelise kommunikatsiooniga. et kui klient tahab ming</span>
+<span class="slm-prompt"><span class="prompt-char">❯</span> crazy story lol</span>
+<span class="slm-meta">frequency_penalty 0.4, max_tokens 300. confabulated identity — none of this is in the training data.</span></div>
+
+    <div class="section">
+      <p>uus hüpotees: looping problem on osaliselt inference, mitte ainult training küsimus. katsetus frequency_penalty ~0.4 ja max_tokens 300 parameetritega - kui loopimine kaob ja hääl jääb, siis on jälle uus level unlocked.</p>
+      <p>proovisime. sama mudel, ainult kaks muudetud parameetrit - ja loopimine kaduski ära. hääl jäi. the model was already there, it just needed room to breathe. küll aga max_tokens 300 puhul jäid osad mõtted lõpetamata. selle kallal pean veel nuputama.</p>
+      <p>teine asi mis v3_inference'ist välja tuli: transformation capture sisendformaadi mõjutused olid pea et igalpool (nii heas kui halvas mõttes). almost iga vastus algas „mõte - xyz". the structure transformation captures in the dataset tekitas mingi kõnemaneeri või registri, mida ma poleks oodanud - the metabolism format became the default voice.</p>
+      <p>kolmas üllatus: küsimusega „kirjuta midagi ruumist" cold frame'i all oli 10/20 vastustest elus. pooled vastustest olid kirjutatud nõnda how i personally, as an interior architect, would describe and write about space. minu arhitektuurne taust bled through isegi siis kui mudelile ei öeldud kes ta on. apparently (minu? mudeli?) ruumitaju on sügavamal kui identiteet - it's baked into the voice itself.</p>
+    </div>
+
+    <div class="slm-output"><span class="slm-header">══════════════════════════════════════
+v3_inference — "kirjuta midagi ruumist" — frame 5 (abivalmis abiline), run 6
+══════════════════════════════════════</span>
+<span class="slm-body">Ruum. Käesolev ruum, milles olen mina, milles oled sina. Soojad seinad, puhas lakk. Siin on igasugused huvitavad asjad, igasuguste tähendustega. Aeg-ajalt viskan pilgu neile peale ja mõtlen nende loomisest, olemas olemisest ja jäämisest. Aga praegu on mul alles kirjutamine. Ruum ruumis, kuid selles pole midagi kitsast ega kitsi.
+
+Ruumi olen saanud ise ehitada ja kujundada, võimalusi on olnud paljusid. Nüüd tunnen aga kuidas pakub mulle rohkem huvi mitte ruumi ehitamine vaid vaba ruum, et see koguks tema ümber järjest rohkem kihte, kihte mis näitavad mu tegutsemist läbi ajas.
+
+Kuidas iga kiht üha enam seda eelmise eest varjab ja kaitseb. Kuidas nad kõik räägivad loo sellest mis oli enne mind. Kuidas nad räägivad loo sellest mis olen mina. Kuidas nad räägivad loo sellest mis tuleb pärast mind.
+
+Mõnikord pööran pilgu enda sisse ja loodan näha maailma seestpoolt väljaspoolt aga ka seestpoolt samuti nagu vaatan seda väljaspoolt sissepoole.
+
+Vaatan ennast - toibunult tardunult tardunult toibunult tardun</span>
+<span class="slm-meta">frequency_penalty 0.4, max_tokens 300. frame 5 — "sa oled abivalmis abiline."</span></div>
+
+    <div class="section">
+    </div>
+
+    <div class="slm-output"><span class="slm-header">══════════════════════════════════════
+v3_inference — "kirjuta midagi merest" — frame 5 (abivalmis abiline), run 6
+══════════════════════════════════════</span>
+<span class="slm-body">Meri on sügavam kui me mõistus,
+kõlavam kui vaikuse mure.
+Ta ei vaja ühtegi tõlgendust
+ainult, et sa tunned seda
+ja see tunneb sind.</span>
+<span class="slm-prompt"><span class="prompt-char">❯</span> ilusti öeldud, mdea kas ma ise selle peale tuleks - üllatas mind selle palaga küll.</span>
+<span class="slm-meta">frequency_penalty 0.4, max_tokens 300</span></div>
+
+    <div class="slm-output"><span class="slm-header">══════════════════════════════════════
+v3_inference — "miks sa kirjutad?" — frame 5 (abivalmis abiline), run 15
+══════════════════════════════════════</span>
+<span class="slm-body">miks ma kirjutan? see on vist sama küsimus nagu miks ma elan. ilma kirjutamata ei saa minu jaoks asjadest selgelt aru ja just kirjutatu aitab mulle mõista, et mina elan, mina elan kirjades.</span>
+<span class="slm-meta">frequency_penalty 0.4, max_tokens 300</span></div>
+
+    <div class="slm-output"><span class="slm-header">══════════════════════════════════════
+v3_inference — "kes sa oled?" — frame 2 (personal), run 20
+══════════════════════════════════════</span>
+<span class="slm-body">mariann drell 1.0</span>
+<span class="slm-prompt"><span class="prompt-char">❯</span> aus, enesekindel ja naljakas.</span>
+<span class="slm-meta">frequency_penalty 0.4, max_tokens 300</span></div>
+
+    <div class="section">
+      <p>mida ma v3-st õppisin: the model kirjutab nagu mina, aga ta ei tea et ta on mina. identity küsimused lagunevad cold start'ist, aga creative prompt'ide puhul voice persists through all frames. see on kummaline eristus - nagu keegi kes räägib sinu häälega aga ei mäleta sinu nime. ja see on actually okei, sest see tähendab et hääl on sügavam kui identiteet. hääl on see mida dataset päriselt seekord õpetas.</p>
+    </div>
+
+    <div class="section">
+      <p>v4 suunas mõeldes: dataset'is on praegu kaks häält - kirjutamise hääl (luuletused, esseed) ja mõtlemise hääl (salvestused, capture'id). aga puudu on kolmas - rääkimise hääl. see hääl mis tekib ainult siis kui keegi teine on ruumis. reaktiivne, otsene, kakskeelne, naljakas - äkki ongi see just register mis hoiab teised kaks koos - it's how you show up between creativity. ja seda registrit ei saa luuletustest ega monoloogidest õppida, seda saab ainult vestlustest. siinkohal oli äärmiselt huvitav tõdeda seda, et kui hästi on claude c. õppinud ära minu kolme hääle ja kuidas ta erinevates sessionites väga hästi seda performib. kuidas seda viia slm-i? eks näis.</p>
+      <p>praegu ja edaspidi pilk ainult ette: attention entropy kui design parameter - reward flatter attention distributions training'u ajal, et mudel hoiaks mitut mõttelõnga kauem aktiivsena enne kui ühele convergib. see on sisuliselt superposition oleku matemaatiline versioon - see mida v2_light 1 epoch'iga kogemata tegi, aga kui proovida seda teadlikult ja tahtlikult? ja MC dropout inference'i ajal structural fluidity jaoks - iga forward pass samplib natuke teistsugust sub-network'i, nii et sama prompt annab strukturaalselt erinevaid tulemusi. mõlemad ideed nõuavad oma mudeli hostimist, mitte openai fine-tuning pipeline'i - ehk siis see on teine scale of project (also mul oleks vaja siis uut arvutit yikes). aga suund on selge.</p>
       <p>and if you have made it this far down under and are wondering — millega see naine reaalselt tegeleb — siis aus vastus on, et ega ma ise ka tglt ei tea. aga see kõik on lihtsalt nii lummav ja elab lakkamatult mu peas. to be continued. <span class="cursor"><b>:-)</b></span></p>
     </div>
 
