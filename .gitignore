@@ -1,3 +1,8 @@
 .DS_Store
 texts/
 training/
+
+.claude/settings.local.json
+archive/
+index_backup*.html
+style_backup*.css

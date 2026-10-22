@@ -215,7 +215,7 @@
 
   <div class="content">
     <h1>?</h1>
-    <p style="color: #808080; margin-top: -20px;">last updated <span id="last-updated"></span></p>
+    <p style="color: #808080; margin-top: -20px;">last updated 12.04.2026</p>
 
     <div class="section">
       <p>2026 veebruaris with no prior coding experience sain tuttavaks claude code'iga ja tundsin tema ülesehituses ära iseenda mõttemustrid. ei osanud seletada kuidas, miks või millised. too hetk alustasin kodulehe ehitamisega, eesmärgiks esialgu luua fotode arhiiv. poole pealt mõistsin et sinna peab lisanduma ka mu tekstide arhiiv. kogu protsess omas eelkõige oma loomingulise mina kureerimise, selgitamise (läbi prompt engineering'u) ja "mina kui teadvuse" peegeldamise tähendust. nõnda on see siiani. ja siiani ma alles õpin.</p>
@@ -769,12 +769,6 @@ v3_inference — "kes sa oled?" — frame 2 (personal), run 20
 
   </div>
 <script>
-  const d = new Date(document.lastModified);
-  const dd = String(d.getDate()).padStart(2, '0');
-  const mm = String(d.getMonth() + 1).padStart(2, '0');
-  const yyyy = d.getFullYear();
-  document.getElementById('last-updated').textContent = dd + '.' + mm + '.' + yyyy;
-
   document.querySelectorAll('.expand-hint').forEach(hint => {
     const body = hint.closest('.slm-output').querySelector('.collapsible');
     const toggle = () => {
